@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: "#D02F3D";
+  --bg-primary: "#FAFBFC";
+  --bg-secondary: "#F1F1F1";
+  --bg-third: "#EAEAEA";
+  --bg-red: "#FFEEEE";
+  --text-primary: "#141716";
+  --text-secondary: "#FFFFFF";
+  --text-third: "#C2C2C2";
+  --sematic-red: "#FF4141";
+  --sematic-yellow: "#F0BD0A";
+  --sematic-green: "#27AE60";
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Bangers", cursive;
+  font-family: "Roboto", sans-serif;
+  height: 100vh;
+}
+.text-linear {
+  background: linear-gradient(90.32deg, #d02f3d 1.37%, #ff5261 97.65%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.auth-form label {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  /* identical to box height, or 150% */
+
+  color: #000000;
+}
+.auth-form input {
+  padding: 22px 16px;
+  background: #f1f1f1;
+  border-radius: 8px;
+  outline: none;
+}
+.select-home {
+  width: 302px;
+}
+.select-home .ant-select-selector {
+  height: 64px !important;
+  padding: 16px 16px !important;
+}
+.select-home .ant-select-selection-placeholder {
+  color: #888888;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+}
+@media (max-width: 1455px) {
+  .banner-home {
+    background-size: unset !important;
+  }
+}
+.ant-popconfirm-description {
+  margin-inline-start: unset !important;
+}

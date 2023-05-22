@@ -1,0 +1,15 @@
+// carousel with card
+      <div className='w-[1296px] mx-auto'>
+      <Carousel
+        margin={32}
+        datas={CardData}
+        items={4}
+        renderItem={item => {
+          return (
+            <Card data={item} widthImage={300} heightImage={257} />
+          );
+        }}
+      />
+    </div>
+
+

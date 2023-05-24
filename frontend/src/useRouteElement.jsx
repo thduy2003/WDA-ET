@@ -48,6 +48,12 @@ const useRouteElement = () => {
 
         },
         {
+            path: '/detail',
+            element: <MainLayout>
+                <Detail />
+            </MainLayout>
+        },
+        {
             path: 'detail',
             element: <Detail />
         },

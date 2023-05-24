@@ -117,6 +117,7 @@ const InputEditorRender: React.ForwardRefRenderFunction<
         ["clean"],
       ],
     },
+    scrollingContainer: "html",
     placeholder: placeholder ?? "Nhập nội dung...",
     readOnly: readOnly ?? false,
   });

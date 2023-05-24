@@ -4,6 +4,7 @@ import InputEditor from '../../components/InputEditor';
 import Button from '../../components/Button'
 import dayjs from 'dayjs'
 import { GeocoderAutocomplete } from '@geoapify/geocoder-autocomplete';
+import { postProvince } from '../../api/ProvinceAPI';
 const geoapify = "2e8f62d864414a2780fdcbcf30589685";
 const EditLandMark = () => {
     const [form] = Form.useForm()
@@ -143,6 +144,7 @@ const EditLandMark = () => {
                     <Form.Item className='w-full' label="Link địa danh" name='link'>
                         <Input placeholder="Nhập link" />
                     </Form.Item>
+
                 </div>
                 <div className='bg-white rounded-lg p-6 w-full mt-4' style={{ boxShadow: '0px 2px 8px 2px rgba(0, 0, 0, 0.08)' }}>
                     <h2 className='text-xl font-semibold'>Thông tin phụ</h2>
@@ -153,6 +155,7 @@ const EditLandMark = () => {
 
                         initialValue={data.overview}
                         onChange={(value) => {
+
                             data.overview = value.html ?? "";
                             setData(data);
                         }}
@@ -164,6 +167,7 @@ const EditLandMark = () => {
 
                         initialValue={data.enjoyContent}
                         onChange={(value) => {
+
                             data.enjoyContent = value.html ?? "";
                             setData(data);
                         }}
@@ -181,7 +185,7 @@ const EditLandMark = () => {
                     <Button siez='small' type='primary'
                         onClick={() => {
                             form.validateFields().then((values) => {
-                                console.log(values)
+
                             });
                         }}
                     >

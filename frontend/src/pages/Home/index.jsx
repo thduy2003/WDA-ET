@@ -1,20 +1,23 @@
 import { Col, Dropdown, Popconfirm, Row, Select } from 'antd';
-import { ArrowCircleRight2, Call, Clock, CloseCircle, Location, ProfileCircle, SearchNormal1 } from 'iconsax-react';
+import { ArrowCircleRight2, Call, Clock, CloseCircle, Location, ProfileCircle, SearchNormal1, Star1 } from 'iconsax-react';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../../components/Button';
 import Card from '../../components/Card';
 import Carousel from '../../components/Carousel';
+import Footer from '../../components/Footer';
 import { InputGroup } from '../../components/InputGroup';
 import Logo from '../../components/Logo';
 import { CardData } from '../../data/CardData';
 import { HistoryData } from '../../data/HistoryData';
 import { LocationData } from '../../data/LocationData';
 import { VillageData } from '../../data/VillageData';
+import { useDebounce } from '../../hooks/useDebounce';
 
 const Home = () => {
 
     const [tabActive, setTabActive] = useState(1)
+    const [search, setSearch] = useState('')
 
     const handleChangeTab = (e) => {
         if (e.target.innerText === 'Danh lam thắng cảnh') {
@@ -27,8 +30,12 @@ const Home = () => {
             setTabActive(3)
         }
     }
+    const onChangeInput = (e) => {
+        setSearch(e.target.value)
+    }
+    let debounceValue = ''
 
-
+    debounceValue = useDebounce(search, 700)
     return (
         <>
             <div className='banner-home' style={{
@@ -39,16 +46,16 @@ const Home = () => {
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat'
             }}>
-                <div className='flex items-center justify-between px-[92px] py-[30.6px]'>
+                <div className='flex items-center justify-between px-[92px] py-[16px]'>
                     <Logo color='white' />
                     <div className='flex text-[#FAFBFC] text-base font-medium flex-row gap-x-9 items-center'>
                         <Link to='/'>Trang chủ</Link>
-                        <Link to='/'>Đề xuất lộ trình</Link>
-                        <Link to='/'>Diễn đàn</Link>
+                        <Link to='/trip'>Đề xuất lộ trình</Link>
+                        <Link to='/forum'>Diễn đàn</Link>
                         <Link to='/'><Button size='small' type='outline-white' iconPosition='left' iconLeft={<ProfileCircle size="20" color="#FAFBFC" variant="Bold" />}>Đăng kí</Button></Link>
                     </div>
                 </div>
-                <div className='mx-auto text-[#FAFBFC] my-[115px] w-[780px] text-[57px] leading-[64px] text-center'>
+                <div className='mx-auto text-[#FAFBFC] my-[115px] w-[780px] text-[57px] leading-[64px] font-semibold text-center'>
                     Khám phá nét đẹp tiềm ẩn của
                     Việt Nam
                 </div>
@@ -56,55 +63,87 @@ const Home = () => {
                     <Popconfirm
                         placement="bottom"
                         description={<div>
-                            <div className='p-6 bg-white min-w-[811px] '>
-                                <div>
-                                    <h3 className='mb-4 text-[#141716] text-xl font-semibold'>Lịch sử tìm kiếm</h3>
-                                    <div className='flex flex-col gap-y-3'>
-                                        <div className='flex justify-between'>
-                                            <div className='flex'>
-                                                <Clock size="20" color="#FF8A65" variant="Outline" />
-                                                <p className='ml-2 text-[#141716] text-base font-medium'>lễ hội ẩm thực ở Hội An</p>
+                            {debounceValue.length > 0 ? <div>
+                                <div className='p-6 bg-white min-w-[811px] '>
+                                    <div>
+                                        <h3 className='mb-4 text-[#141716] text-xl font-semibold'>Tỉnh</h3>
+                                        <div className='relative w-full'>
+                                            <img className='w-full h-[102px] rounded-lg' src='/images/longan.png' />
+                                            <div className='bg-[#141716] w-full h-full absolute top-0 rounded-lg opacity-50'>
+
                                             </div>
-                                            <div>
-                                                <CloseCircle size="20" color="#D02F3D" variant="Bold" />
-                                            </div>
+                                            <h2 className='text-base absolute top-[50%] left-[50%] -translate-x-1/2  -translate-y-1/2 font-medium text-[#FAFBFC]'>Tỉnh Long An</h2>
                                         </div>
-                                        <div className='flex justify-between'>
-                                            <div className='flex'>
-                                                <Clock size="20" color="#FF8A65" variant="Outline" />
-                                                <p className='ml-2 text-[#141716] text-base font-medium'>truyền thống Thanh Hóa</p>
+                                        <h3 className='mb-4 text-[#141716] text-xl font-semibold mt-9'>Địa điểm đề xuất</h3>
+                                        <div className='flex flex-col  gap-y-3 mt-4'>
+                                            <div className='flex justify-between items-center'>
+                                                <div className='flex items-center'>
+                                                    <img className='w-[54px] h-[54px] mr-4  rounded-lg' src="/images/tanlap.png" alt="" />
+                                                    <div className='flex flex-col'>
+                                                        <h3>Làng nổi Tân Lập</h3>
+                                                        <span className='text-[#888888] text-sm'>Địa điểm: QL62, Tân Lập, Mộc Hóa, Long An</span>
+                                                    </div>
+                                                </div>
+                                                <div className='flex items-center'>
+                                                    <span className='text-sm font-medium mr-2'> 3.5</span>
+                                                    <Star1 size="16" color="#DCE775" variant="Bold" />
+                                                </div>
                                             </div>
-                                            <div>
-                                                <CloseCircle size="20" color="#D02F3D" variant="Bold" />
-                                            </div>
-                                        </div>
-                                        <div className='flex justify-between'>
-                                            <div className='flex'>
-                                                <Clock size="20" color="#FF8A65" variant="Outline" />
-                                                <p className='ml-2 text-[#141716] text-base font-medium'>làng nổi Tân Lập Long An</p>
-                                            </div>
-                                            <div>
-                                                <CloseCircle size="20" color="#D02F3D" variant="Bold" />
-                                            </div>
+
                                         </div>
                                     </div>
-                                    <h3 className='mt-9 mb-4 text-[#141716] text-xl font-semibold'>Từ khóa được tìm kiếm nhiều nhất</h3>
                                 </div>
-                            </div>
-                            <div className='pl-6 overflow-hidden'>
-                                <Carousel
-                                    margin={32}
-                                    datas={LocationData}
-                                    auto
-                                    hiddenButton={true}
-                                    items={3}
-                                    renderItem={item => {
-                                        return (
-                                            <img src={item.image} className='w-[197px] h-[102px] select-none pointer-events-none	 ' />
-                                        );
-                                    }}
-                                />
-                            </div>
+                            </div> :
+
+                                <><div className='p-6 bg-white min-w-[811px] '>
+                                    <div>
+                                        <h3 className='mb-4 text-[#141716] text-xl font-semibold'>Lịch sử tìm kiếm</h3>
+                                        <div className='flex flex-col gap-y-3'>
+                                            <div className='flex justify-between'>
+                                                <div className='flex'>
+                                                    <Clock size="20" color="#FF8A65" variant="Outline" />
+                                                    <p className='ml-2 text-[#141716] text-base font-medium'>lễ hội ẩm thực ở Hội An</p>
+                                                </div>
+                                                <div>
+                                                    <CloseCircle size="20" color="#D02F3D" variant="Bold" />
+                                                </div>
+                                            </div>
+                                            <div className='flex justify-between'>
+                                                <div className='flex'>
+                                                    <Clock size="20" color="#FF8A65" variant="Outline" />
+                                                    <p className='ml-2 text-[#141716] text-base font-medium'>truyền thống Thanh Hóa</p>
+                                                </div>
+                                                <div>
+                                                    <CloseCircle size="20" color="#D02F3D" variant="Bold" />
+                                                </div>
+                                            </div>
+                                            <div className='flex justify-between'>
+                                                <div className='flex'>
+                                                    <Clock size="20" color="#FF8A65" variant="Outline" />
+                                                    <p className='ml-2 text-[#141716] text-base font-medium'>làng nổi Tân Lập Long An</p>
+                                                </div>
+                                                <div>
+                                                    <CloseCircle size="20" color="#D02F3D" variant="Bold" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h3 className='mt-9 mb-4 text-[#141716] text-xl font-semibold'>Từ khóa được tìm kiếm nhiều nhất</h3>
+                                    </div>
+                                </div>
+                                    <div className='pl-6 overflow-hidden'>
+                                        <Carousel
+                                            margin={32}
+                                            datas={LocationData}
+                                            auto
+                                            hiddenButton={true}
+                                            items={3}
+                                            renderItem={item => {
+                                                return (
+                                                    <img src={item.image} className='w-[197px] h-[102px] select-none pointer-events-none	 ' />
+                                                );
+                                            }}
+                                        />
+                                    </div> </>}
                         </div>}
                         arrow={false}
                         title={false}
@@ -124,6 +163,7 @@ const Home = () => {
                                 className="md:block w-[811px] hidden text"
                                 left={<SearchNormal1 size="16" color="#FAFBFC" variant="Outline" />}
                                 placeholder={'Tìm kiếm địa điểm, danh lam thắng cảnh,...'}
+                                onChange={onChangeInput}
                             />
                         </>
                     </Popconfirm>
@@ -158,57 +198,7 @@ const Home = () => {
                     />
                 </div>
             </div>
-            <div className='bg-white ' style={{ borderTop: '1px solid #888888' }}>
-                <div className='px-[92px] py-[72px]'>
-
-                    <div>
-                        <Logo />
-                        <span className='text-[#141716] text-base leading-[19px] font-light'>Việt Nam trong tầm tay</span>
-                    </div>
-                    <div className='flex justify-between mt-6'>
-                        <div className='flex flex-col max-w-[371px]'>
-                            <p className='text-base font-normal'>Sứ mạng của chúng tôi là mang những nét đẹp văn hóa Việt Nam vào trong các hành trình du lịch cho con người Việt Nam.</p>
-                            <div className='flex items-center mt-[32px]'>
-                                <Call size="20" color="#D02F3D" variant="Bold" />
-                                <p className='text-[#141716] ml-[13px] text-base'>Liên hệ: 0987654321</p>
-                            </div>
-                            <div className='flex items-center mt-[16px] '>
-                                <Location size="20" color="#D02F3D" variant="Bold" />
-                                <p className='text-[#141716] ml-[13px] text-base'>Địa điểm: 123 Đường Lê Lợi, Quận 1, Thành phố Hồ Chí Minh, Việt Nam.</p>
-                            </div>
-
-                        </div>
-                        <div className='flex flex-col w-fit'>
-                            <p className='text-[#141716] text-base font-medium '>Dịch vụ</p>
-                            <div className='text-[#888888] flex flex-col mt-6 text-base font-normal gap-y-4'>
-                                <p>Hướng dẫn sử dụng</p>
-                                <p>FAQs</p>
-                                <p>Điều khoản sử dụng</p>
-                                <p>Chính sách bảo mật</p>
-                            </div>
-                        </div>
-                        <div className='flex flex-col w-fit'>
-                            <p className='text-[#141716] text-base font-medium '>Về chúng tôi</p>
-                            <div className='text-[#888888] flex flex-col mt-6 text-base font-normal gap-y-4'>
-                                <p>Sứ mạng</p>
-                                <p>Tầm nhìn</p>
-
-                            </div>
-                        </div>
-                        <div className='flex flex-col w-fit'>
-                            <p className='text-[#141716] text-base font-medium '>Kết nối với chúng tôi</p>
-                            <div className='text-[#888888] flex flex-col mt-6 text-base font-normal gap-y-4'>
-                                <p>Hướng dẫn sử dụng</p>
-                                <p>FAQs</p>
-
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
+            <Footer />
         </>
     );
 };

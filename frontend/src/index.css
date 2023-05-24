@@ -47,11 +47,15 @@ body {
 .select-home {
   width: 302px;
 }
-.select-home .ant-select-selector {
+.ant-select-selector {
   height: 64px !important;
   padding: 16px 16px !important;
 }
-.select-home .ant-select-selection-placeholder {
+.select-admin .ant-select-selector {
+  height: 30px !important;
+  padding: 0 10px !important;
+}
+.ant-select-selection-placeholder {
   color: #888888;
   font-weight: 500;
   font-size: 14px;
@@ -64,4 +68,28 @@ body {
 }
 .ant-popconfirm-description {
   margin-inline-start: unset !important;
+}
+.trip-collapse {
+  background-color: transparent !important;
+  border: 0 !important;
+}
+
+.trip-collapse .ant-collapse-header {
+  padding: 16px 0 !important;
+}
+
+.trip-collapse .ant-collapse-item-active {
+  border-bottom: 1px solid #eaeaea;
+}
+.trip-collapse .ant-collapse-content-active {
+  border-top: 0;
+}
+.trip-collapse .ant-collapse-item:nth-child(2) {
+  border-radius: 0;
+}
+.trip-collapse .ant-collapse-content-box {
+  padding: 0 !important;
+}
+.trip-collapse .ant-collapse-content {
+  background-color: transparent !important;
 }

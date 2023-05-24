@@ -9,12 +9,14 @@ import Logo from './components/Logo';
 import { CardData } from './data/CardData';
 import Auth from './pages/Auth';
 import Home from './pages/Home';
+import useRouteElement from './useRouteElement';
 
 const App = () => {
+  const routeElements = useRouteElement()
   return (
     <div>
 
-      <Home />
+      {routeElements}
 
     </div>
   );

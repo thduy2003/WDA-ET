@@ -18,13 +18,7 @@ const EditLandMark = () => {
     const [starTime, setStartTime] = React.useState();
     const fileOnChange = (event) => {
         console.log(event.target.files)
-        // const file = event.target.files[0];
-        // if (file) {
-        //     setImage(file);
-        // } else {
-        //     setImage(null);
-        //     alert("Please select a file.");
-        // }
+
     };
     const autocompleteRef = useRef(null)
 
@@ -47,6 +41,7 @@ const EditLandMark = () => {
 
             autocompleteInput.on('select', (location) => {
                 setDataLocation(location)
+                console.log(location)
             });
 
             autocompleteInput.on('suggestions', (suggestions) => {
@@ -62,8 +57,11 @@ const EditLandMark = () => {
                 <div className='bg-white rounded-lg p-6 w-full' style={{ boxShadow: '0px 2px 8px 2px rgba(0, 0, 0, 0.08)' }}>
                     <h2 className='text-xl font-semibold'>Thông tin chính</h2>
                     <div className='flex w-full gap-x-4'>
-                        <Form.Item className='w-full' label="Tên địa danh" name='name'>
+                        <Form.Item className='w-full' >
                             <div ref={autocompleteRef} className="autocomplete-container" style={{ position: "relative" }}></div>
+                        </Form.Item>
+                        <Form.Item className='w-full' label='Tên địa danh' name='name' >
+                            <Input placeholder='Tên địa danh'></Input>
                         </Form.Item>
                         <Form.Item className='w-full' label="Loại hình" name='type'>
                             <Select placeholder='Chọn loại địa danh' className='select-admin' options={[
@@ -75,10 +73,12 @@ const EditLandMark = () => {
                         </Form.Item>
                     </div>
                     <div className='flex w-full gap-x-4'>
+                        {dataLocation?.properties?.address_line2}
                         <Form.Item className='w-full' label="Địa chỉ" name='address'>
-                            {dataLocation?.properties?.address_line2}
+
                             <Input placeholder="Nhập địa chỉ" />
                         </Form.Item>
+                        {dataLocation?.properties?.lat && `https://www.google.com/maps/search/${dataLocation?.properties?.lat},${dataLocation?.properties?.lon}`}
                         <Form.Item className='w-full' label="Google Map" name='map'>
 
                             <Input placeholder="Nhập link" />
@@ -183,6 +183,7 @@ const EditLandMark = () => {
                     <Button siez='small' type='primary'
                         onClick={() => {
                             form.validateFields().then((values) => {
+                                console.log(values)
                             });
                         }}
                     >

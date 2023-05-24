@@ -41,7 +41,7 @@ const EditProvince = () => {
                             <Input placeholder="Nhập số khách du lịch" />
                         </Form.Item>
                         <Form.Item className='w-full' label="Số lượng địa danh tham quan" name='place_num'>
-                            <Input placeholder="Nập số địa danh tham quan" />
+                            <Input disabled placeholder="Nập số địa danh tham quan" />
                         </Form.Item>
                     </div>
                 </div>
@@ -82,15 +82,14 @@ const EditProvince = () => {
                             form.validateFields().then(async (values) => {
 
                                 try {
-                                    const result = await postProvince({
-                                        name: values.name,
-                                        overview: data.overview,
-                                        funfact: data.funfact,
-                                        images: images,
-                                        rating: 0,
-                                        area: values.area,
-                                        num_traveler: values.num_traveler,
-                                    })
+                                    const data = new FormData()
+
+                                    data.append("name", values.name)
+                                    for (const image of images) {
+                                        data.append("images", image);
+                                    }
+
+                                    const result = await postProvince(data)
                                     console.log(result)
                                 } catch (error) {
                                     console.log(error)

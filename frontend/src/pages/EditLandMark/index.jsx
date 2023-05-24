@@ -17,20 +17,18 @@ const EditLandMark = () => {
     const [endTime, setEndTime] = React.useState();
     const [starTime, setStartTime] = React.useState();
     const fileOnChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            setImage(file);
-        } else {
-            setImage(null);
-            alert("Please select a file.");
-        }
+        console.log(event.target.files)
+        // const file = event.target.files[0];
+        // if (file) {
+        //     setImage(file);
+        // } else {
+        //     setImage(null);
+        //     alert("Please select a file.");
+        // }
     };
     const autocompleteRef = useRef(null)
-    const inputEditorRefV1 = useRef(null);
-    const inputEditorRefV2 = useRef(null);
-    const handleScroll = (event) => {
-        event.preventDefault();
-    };
+
+
     useEffect(() => {
         const input = document.getElementsByClassName('geoapify-autocomplete-input')
         if (input.length === 0) {
@@ -177,7 +175,7 @@ const EditLandMark = () => {
                     <h2 className='text-xl font-semibold'>Hình ảnh</h2>
                     <Form.Item name='picture' label='Hình ảnh'>
                         <div>
-                            <input type='file' onChange={fileOnChange} />
+                            <input multiple accept="image/png, image/gif, image/jpeg" type='file' onChange={fileOnChange} />
                         </div>
                     </Form.Item>
                 </div>

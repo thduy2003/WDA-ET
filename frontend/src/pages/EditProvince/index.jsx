@@ -10,18 +10,19 @@ const EditProvince = () => {
         overview: "",
         funfact: ''
     });
-    const [image, setImage] = React.useState();
+    const [images, setImages] = React.useState();
     const fileOnChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            setImage(file);
+
+        const files = event.target.files;
+        if (files) {
+            setImages([...files]);
         } else {
-            setImage(null);
+            setImages(null);
             alert("Please select a file.");
         }
     };
 
-
+    console.log(images)
     return (
         <div className='bg-[#f1f1f1] w-full '>
             <Form form={form} layout='vertical' className='px-6 pt-10'>
@@ -69,9 +70,9 @@ const EditProvince = () => {
                 </div>
                 <div className='bg-white rounded-lg p-6 w-full mt-4' style={{ boxShadow: '0px 2px 8px 2px rgba(0, 0, 0, 0.08)' }}>
                     <h2 className='text-xl font-semibold'>Hình ảnh</h2>
-                    <Form.Item name='picture' label='Hình ảnh'>
+                    <Form.Item name='images' label='Hình ảnh'>
                         <div>
-                            <input type='file' onChange={fileOnChange} />
+                            <input name='images' multiple accept="image/png, image/gif, image/jpeg" type='file' onChange={fileOnChange} />
                         </div>
                     </Form.Item>
                 </div>
@@ -79,13 +80,13 @@ const EditProvince = () => {
                     <Button siez='small' type='primary'
                         onClick={() => {
                             form.validateFields().then(async (values) => {
-                                console.log(image)
+
                                 try {
                                     const result = await postProvince({
                                         name: values.name,
                                         overview: data.overview,
                                         funfact: data.funfact,
-                                        images: ['images'],
+                                        images: images,
                                         rating: 0,
                                         area: values.area,
                                         num_traveler: values.num_traveler,

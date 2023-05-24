@@ -185,7 +185,6 @@ const EditLandMark = () => {
                     <Button siez='small' type='primary'
                         onClick={() => {
                             form.validateFields().then((values) => {
-
                             });
                         }}
                     >

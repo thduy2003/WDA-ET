@@ -1,6 +1,6 @@
 import { Col, Dropdown, Popconfirm, Row, Select } from 'antd';
 import { ArrowCircleRight2, Call, Clock, CloseCircle, Location, ProfileCircle, SearchNormal1, Star1 } from 'iconsax-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../../components/Button';
 import Card from '../../components/Card';
@@ -13,12 +13,12 @@ import { HistoryData } from '../../data/HistoryData';
 import { LocationData } from '../../data/LocationData';
 import { VillageData } from '../../data/VillageData';
 import { useDebounce } from '../../hooks/useDebounce';
-
+import axios from 'axios';
 const Home = () => {
 
     const [tabActive, setTabActive] = useState(1)
     const [search, setSearch] = useState('')
-
+    const [provinces, setProvinces] = useState([]);
     const handleChangeTab = (e) => {
         if (e.target.innerText === 'Danh lam thắng cảnh') {
             setTabActive(1)
@@ -33,9 +33,30 @@ const Home = () => {
     const onChangeInput = (e) => {
         setSearch(e.target.value)
     }
+   
     let debounceValue = ''
 
     debounceValue = useDebounce(search, 700)
+    
+    useEffect(() => {
+        const fetchProvinces = async () => {
+          try {
+            const response = await axios.get("https://provinces.open-api.vn/api/?depth=1");
+            const data = response.data;
+            
+            const formattedProvinces = data.map(province => ({
+              value: province.name,
+              label: province.name
+            }));
+            setProvinces(formattedProvinces);
+          } catch (error) {
+            console.error(error);
+          }
+        };
+        fetchProvinces(); 
+        return () => {
+        };
+      }, []); 
     return (
         <>
             <div className='banner-home' style={{
@@ -172,8 +193,20 @@ const Home = () => {
 
                 </div>
                 <div className='mt-6 flex items-center gap-x-4 w-fit mx-auto'>
-                    <Select className='select-home ' placeholder='Chọn điểm đi' />
-                    <Select className='select-home' placeholder='Chọn điểm đến' />
+                    <Select className='select-home ' placeholder='Chọn điểm đi'>
+                        {provinces.map(province => (
+                            <Option key={province.value} value={province.value}>
+                                {province.label}
+                            </Option>
+                        ))}
+                    </Select>
+                    <Select className='select-home' placeholder='Chọn điểm đến'>
+                        {provinces.map(province => (
+                            <Option key={province.value} value={province.value}>
+                                {province.label}
+                            </Option>
+                        ))}
+                    </Select>
                     <Button size='big' type='primary' iconPosition='right' iconRight={<ArrowCircleRight2 size="20" color="#FAFBFC" variant="Bold" />}  > Đề xuất lộ trình </Button>
                 </div>
             </div>

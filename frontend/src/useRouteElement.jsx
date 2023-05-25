@@ -2,6 +2,7 @@ import React from 'react'
 import { Navigate, Outlet, useRoutes } from 'react-router-dom';
 import AdminLayout from './layout/AdminLayout';
 import MainLayout from './layout/MainLayout';
+import Auth from './pages/Auth';
 import Detail from './pages/Detail';
 import EditLandMark from './pages/EditLandMark';
 import EditProvince from './pages/EditProvince';
@@ -58,7 +59,10 @@ const useRouteElement = () => {
             path: 'detail',
             element: <Detail />
         },
-
+        {
+            path: 'auth',
+            element: <Auth />
+        },
         {
             path: 'admin',
             element: <AdminLayout />,

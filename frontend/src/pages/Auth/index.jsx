@@ -14,12 +14,12 @@ const Auth = () => {
             <div className='py-16 px-[92px] transition-all'>
                 <Logo />
                 <div className='w-fit flex mt-[51px] mb-9' style={{ borderBottom: '1.5px solid #C2C2C2' }}>
-                    <div onClick={() => setIsSignup(true)} className={`mr-9 pb-2 mb-[-1px] text-xl ${isSignup ? 'border-b-[1.5px] border-b-p1 font-semibold ' : 'text-third'}`} >Đăng ký</div>
-                    <div onClick={() => setIsSignup(false)} className={`pb-2 text-xl ${isSignup ? 'text-third' : 'border-b-[1.5px] border-b-p1 font-semibold '}mb-[-1px]`}>Đăng nhập</div>
+                    <div onClick={() => setIsSignup(true)} className={`mr-9 pb-2 mb-[-1px] cursor-pointer text-xl ${isSignup ? 'border-b-[1.5px] border-b-p1 font-semibold ' : 'text-third'}`} >Đăng ký</div>
+                    <div onClick={() => setIsSignup(false)} className={`pb-2 text-xl cursor-pointer ${isSignup ? 'text-third' : 'border-b-[1.5px] border-b-p1 font-semibold '}mb-[-1px]`}>Đăng nhập</div>
                 </div>
                 <Form className='auth-form' form={form} layout='vertical'>
-                    <Form.Item label="Số điện thoại" name='phone'>
-                        <Input placeholder="Nhập số điện thoại" />
+                    <Form.Item label="Email" name='email'>
+                        <Input placeholder="Nhập email của bạn" />
                     </Form.Item>
                     <Form.Item label="Mật khẩu" name='password'>
                         <Input type='password' placeholder="Nhập mật khẩu" />

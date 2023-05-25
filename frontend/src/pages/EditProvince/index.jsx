@@ -6,7 +6,7 @@ import { postProvince } from '../../api/ProvinceAPI';
 
 const EditProvince = () => {
     const [form] = Form.useForm()
-    const [data, setData] = React.useState({
+    const [dataInfo, setDataInfo] = React.useState({
         overview: "",
         funfact: ''
     });
@@ -51,20 +51,20 @@ const EditProvince = () => {
                         name="overview"
                         label="Tổng quan"
 
-                        initialValue={data.overview}
+                        initialValue={dataInfo.overview}
                         onChange={(value) => {
-                            data.overview = value.html ?? "";
-                            setData(data);
+                            dataInfo.overview = value.html ?? "";
+                            setDataInfo(dataInfo);
                         }}
                     />
                     <InputEditor
                         name="funfact"
                         label="Những điều thú vị"
 
-                        initialValue={data.funfact}
+                        initialValue={dataInfo.funfact}
                         onChange={(value) => {
-                            data.funfact = value.html ?? "";
-                            setData(data);
+                            dataInfo.funfact = value.html ?? "";
+                            setDataInfo(dataInfo);
                         }}
                     />
                 </div>
@@ -80,15 +80,15 @@ const EditProvince = () => {
                     <Button siez='small' type='primary'
                         onClick={() => {
                             form.validateFields().then(async (values) => {
-
+                                console.log(dataInfo.overview)
                                 try {
                                     const data = new FormData()
 
                                     data.append("name", values.name)
                                     data.append("area", values.area)
                                     data.append("num_traveler", values.num_traveler)
-                                    data.append("overview", data.overview)
-                                    data.append("funfact", data.funfact)
+                                    data.append("overview", dataInfo.overview)
+                                    data.append("funfact", dataInfo.funfact)
                                     for (const image of images) {
                                         data.append("images", image);
                                     }

@@ -1,5 +1,6 @@
 import React from 'react'
-import { Navigate, Outlet, useRoutes } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Navigate, Outlet, useNavigate, useRoutes } from 'react-router-dom';
 import AdminLayout from './layout/AdminLayout';
 import MainLayout from './layout/MainLayout';
 import Auth from './pages/Auth';
@@ -15,6 +16,8 @@ import NotFound from './pages/NotFound';
 import Trip from './pages/Trip';
 
 const useRouteElement = () => {
+    const user = useSelector((state) => state.authReducer.authData)
+
     // function ProtectedRoute() {
     //     const isLogged = window.localStorage.getItem('loggedIn');
     //     if (!isLogged) {

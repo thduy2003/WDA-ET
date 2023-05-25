@@ -94,7 +94,9 @@ const EditProvince = () => {
                                     }
 
                                     const result = await postProvince(data)
-                                    console.log(result)
+                                    if (result) {
+                                        alert('Đăng thành công')
+                                    }
                                 } catch (error) {
                                     console.log(error)
                                 }

@@ -80,7 +80,6 @@ const EditProvince = () => {
                     <Button siez='small' type='primary'
                         onClick={() => {
                             form.validateFields().then(async (values) => {
-                                console.log(dataInfo.overview)
                                 try {
                                     const data = new FormData()
 
@@ -103,7 +102,7 @@ const EditProvince = () => {
                             });
                         }}
                     >
-                        Đăng tải địa danh
+                        Đăng tải tỉnh thành
                     </Button>
                 </Form.Item>
             </Form>

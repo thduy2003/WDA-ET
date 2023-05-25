@@ -53,15 +53,12 @@ const useRouteElement = () => {
 
         },
         {
-            path: '/detail',
-            element: <MainLayout>
+            path: '/detail/:id',
+            element:
                 <Detail />
-            </MainLayout>
+
         },
-        {
-            path: 'detail/:id',
-            element: <Detail />
-        },
+
         {
             path: 'auth',
             element: user ? <Navigate to='/' /> : <Auth />

@@ -24,7 +24,7 @@ const SliderImage = ({ onChangeZoom = f => f, imagesData }) => {
                 <img src="../../../../public/images/X.png"></img>
             </div>
             {
-                index !== RelatedImageData.length - 1 ?
+                index !== imagesData.length - 1 ?
                     <div className="absolute top-100 right-[230px] cursor-pointer bg-white rounded-[50%] p-2" onClick={() => ChangeIndex("next")}>
                         <ArrowRight2
                             size="20"

@@ -1,13 +1,15 @@
 import { Collapse, Popover, Select, Timeline, Tooltip } from 'antd';
 import { Location, Star1 } from 'iconsax-react';
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { createSearchParams, useLocation, useNavigate } from 'react-router-dom';
 import { getProvince } from '../../api/ProvinceAPI';
 import qs from 'qs';
 import EllipseActiveIcon from '../../components/Icons/Ellipse';
 
 import SaveIcon from '../../components/Icons/SaveIcon';
 import { getTrip } from '../../api/TripAPI';
+import useQueryConfig from '../../hooks/useQueryConfig';
+import QueryString from 'qs';
 const { Panel } = Collapse
 const Trip = () => {
     const [tabActive, setTabActive] = useState(1)
@@ -15,20 +17,16 @@ const Trip = () => {
     const [provinceFrom, setProvinceFrom] = useState()
     const [provinceTo, setProvinceTo] = useState()
     const [cityRoute, setCityRoute] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
-    const location = useLocation();
-    const searchParams = new URLSearchParams(location.search);
-    const start = searchParams.get('start');
-    const end = searchParams.get('end');
 
-    const filter = {
-        start: provinceFrom ?? undefined,
-        end: provinceTo ?? undefined
-    }
 
-    const queryString = qs.stringify(filter, {
-        arrayFormat: 'comma',
-    });
+
+
+
+
+
+
 
     const handleChangeTab = (e) => {
         if (e.target.innerText === 'Danh lam thắng cảnh') {
@@ -41,22 +39,43 @@ const Trip = () => {
             setTabActive(3)
         }
     }
+    const queryConfig = useQueryConfig()
 
+    const valueStart = queryConfig.start ? listProvinces.find(item => item.label === queryConfig?.start)?.value : ''
+    const valueEnd = queryConfig.end ? listProvinces.find(item => item.label === queryConfig?.end)?.value : ''
     const handleChangeSelectFrom = (e) => {
         const selectedFrom = listProvinces.find(item => item.value === e).label;
         setProvinceFrom(selectedFrom)
+        if (provinceTo) {
+            navigate({
+                pathname: '/trip',
+                search: createSearchParams({
+                    ...queryConfig,
+                    start: selectedFrom,
+                    end: provinceTo
+                }).toString()
+            })
+        }
 
     }
     const handleChangeSelectTo = (e) => {
         const selectedTo = listProvinces.find(item => item.value === e).label;
         setProvinceTo(selectedTo)
+        if (provinceFrom) {
+            navigate({
+                pathname: '/trip',
+                search: createSearchParams({
+                    ...queryConfig,
+                    start: provinceFrom,
+                    end: selectedTo
+                }).toString()
+            })
+        }
 
     }
 
-    const handleFiter = () => {
-        navigate(`/trip?${queryString}`);
 
-    }
+
 
     useEffect(() => {
         const fetchProvince = async () => {
@@ -70,26 +89,34 @@ const Trip = () => {
         }
         fetchProvince()
     }, [])
-    useEffect(() => {
-        handleFiter()
-    }, [queryString])
+
 
     useEffect(() => {
-        if (start && end) {
-            const fetchTrip = async () => {
-                const result = await getTrip({
-                    start, end
-                })
-                console.log(result)
-                if (result) {
-                    setCityRoute(result.data.cityRoute)
+
+        if (queryConfig.start && queryConfig.end) {
+            try {
+                setIsLoading(true)
+                const fetchTrip = async () => {
+                    const result = await getTrip({
+                        start: queryConfig.start, end: queryConfig.end
+                    })
+                    console.log(result.length)
+                    if (!result) {
+                        setIsLoading(true)
+                    } else {
+                        setIsLoading(false)
+                        setCityRoute(result.data.cityRoute)
+                    }
+
                 }
+                fetchTrip()
 
+            } catch (error) {
+                console.log(error)
             }
-            fetchTrip()
         }
-    }, [start, end])
-    console.log(cityRoute)
+    }, [queryConfig.start, queryConfig.end])
+
 
     return (
         <div className='mt-[48px] mb-[56px] w-full ' style={{ backgroundImage: 'url(/images/map.png)' }}>
@@ -147,7 +174,7 @@ const Trip = () => {
 
                             </div>
                         }) : <div className='flex mt-16 mx-auto'>
-                            <h1 className='text-xl'>Chọn lộ trình của bạn để xem các tỉnh đi qua theo cung đường ngắn nhất</h1>
+                            <h1 className='text-xl'>{isLoading ? 'Đang tìm kiếm lộ trình. Bạn chờ chút nhé ...' : 'Chọn lộ trình của bạn để xem các tỉnh đi qua theo cung đường ngắn nhất'}</h1>
                         </div>}
 
 
@@ -159,8 +186,8 @@ const Trip = () => {
                     <div className='flex flex-col gap-y-[10px] w-full'>
                         <h2 className='text-[#141716] text-[28px] leading-[36px] font-semibold'>Lộ trình của bạn</h2>
                         <div className='flex items-center gap-x-4 w-full'>
-                            <Select onChange={handleChangeSelectFrom} options={listProvinces} className='w-full' placeholder='Chọn điểm đi' />
-                            <Select onChange={handleChangeSelectTo} options={listProvinces} className='w-full' placeholder='Chọn điểm đến' /> </div>
+                            <Select onChange={handleChangeSelectFrom} defaultValue={valueStart} options={listProvinces} className='w-full' placeholder='Chọn điểm đi' />
+                            <Select onChange={handleChangeSelectTo} defaultValue={valueEnd} options={listProvinces} className='w-full' placeholder='Chọn điểm đến' /> </div>
                     </div>
                     <div className='flex flex-col gap-y-[16px]'>
                         <h2 className='text-[#141716] text-[28px] leading-[36px] font-semibold'>Địa điểm đề xuất</h2>

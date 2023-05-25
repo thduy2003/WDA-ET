@@ -1,7 +1,7 @@
 import { Col, Dropdown, Popconfirm, Row, Select } from 'antd';
 import { ArrowCircleRight2, Call, Clock, CloseCircle, Location, ProfileCircle, SearchNormal1, Star1 } from 'iconsax-react';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { createSearchParams, Link, useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
 import Card from '../../components/Card';
 import Carousel from '../../components/Carousel';
@@ -14,13 +14,18 @@ import { LocationData } from '../../data/LocationData';
 import { VillageData } from '../../data/VillageData';
 import { useDebounce } from '../../hooks/useDebounce';
 import axios from 'axios';
-import { searchProvince } from '../../api/ProvinceAPI';
+import { getProvince, searchProvince } from '../../api/ProvinceAPI';
+import useQueryConfig from '../../hooks/useQueryConfig';
 const Home = () => {
 
     const [tabActive, setTabActive] = useState(1)
     const [search, setSearch] = useState('')
     const [provinces, setProvinces] = useState([]);
     const [dataProvince, setDataProvince] = useState([])
+    const [provinceFrom, setProvinceFrom] = useState()
+    const [provinceTo, setProvinceTo] = useState()
+    const queryConfig = useQueryConfig()
+    const navigate = useNavigate()
     const handleChangeTab = (e) => {
         if (e.target.innerText === 'Danh lam thắng cảnh') {
             setTabActive(1)
@@ -35,7 +40,18 @@ const Home = () => {
     const onChangeInput = (e) => {
         setSearch(e.target.value)
     }
+    const handleChangeSelectFrom = (e) => {
+        const selectedFrom = provinces.find(item => item.value === e).label;
+        setProvinceFrom(selectedFrom)
 
+
+    }
+    const handleChangeSelectTo = (e) => {
+        const selectedTo = provinces.find(item => item.value === e).label;
+        setProvinceTo(selectedTo)
+
+
+    }
     let debounceValue = ''
 
     debounceValue = useDebounce(search, 700)
@@ -50,24 +66,17 @@ const Home = () => {
     }, [debounceValue])
 
     useEffect(() => {
-        const fetchProvinces = async () => {
-            try {
-                const response = await axios.get("https://provinces.open-api.vn/api/?depth=1");
-                const data = response.data;
+        const fetchProvince = async () => {
+            const data = await getProvince()
 
-                const formattedProvinces = data.map(province => ({
-                    value: province.name,
-                    label: province.name
-                }));
-                setProvinces(formattedProvinces);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        fetchProvinces();
-        return () => {
-        };
-    }, []);
+            const provinceItems = data.data.map(province => ({
+                value: province._id,
+                label: province.name
+            }));
+            setProvinces(provinceItems);
+        }
+        fetchProvince()
+    }, [])
     return (
         <>
             <div className='banner-home' style={{
@@ -204,21 +213,26 @@ const Home = () => {
 
                 </div>
                 <div className='mt-6 flex items-center gap-x-4 w-fit mx-auto'>
-                    <Select className='select-home ' placeholder='Chọn điểm đi'>
-                        {provinces.map(province => (
-                            <Option key={province.value} value={province.value}>
-                                {province.label}
-                            </Option>
-                        ))}
+                    <Select onChange={handleChangeSelectFrom} options={provinces} className='select-home ' placeholder='Chọn điểm đi'>
+
                     </Select>
-                    <Select className='select-home' placeholder='Chọn điểm đến'>
-                        {provinces.map(province => (
-                            <Option key={province.value} value={province.value}>
-                                {province.label}
-                            </Option>
-                        ))}
+                    <Select onChange={handleChangeSelectTo} options={provinces} className='select-home' placeholder='Chọn điểm đến'>
+
                     </Select>
-                    <Button size='big' type='primary' iconPosition='right' iconRight={<ArrowCircleRight2 size="20" color="#FAFBFC" variant="Bold" />}  > Đề xuất lộ trình </Button>
+                    <Button size='big' type='primary' onClick={() => {
+                        if (provinceFrom && provinceTo) {
+                            navigate({
+                                pathname: '/trip',
+                                search: createSearchParams({
+                                    ...queryConfig,
+                                    start: provinceFrom,
+                                    end: provinceTo
+                                }).toString()
+                            })
+                        } else {
+                            alert('vui lòng chọn điểm đi và điểm đến')
+                        }
+                    }} iconPosition='right' iconRight={<ArrowCircleRight2 size="20" color="#FAFBFC" variant="Bold" />}  > Đề xuất lộ trình </Button>
                 </div>
             </div>
             <div className='px-[92px] mt-[56px] mb-[120px] bg-white'>

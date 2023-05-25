@@ -17,5 +17,6 @@ export const searchProvince = async (data) => {
 }
 export const getProvinceById = async (id) => {
     const result = await API.get(`/province/${id}`)
+    console.log(result)
     return result.data
 }

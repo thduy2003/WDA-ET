@@ -5,15 +5,19 @@ const Star = ({ selected = false, onSelect = f => f }) => (
 );
 
 const createArray = length => [...Array(length)];
-const StarRating = ({ totalStars = 5 }) => {
+const StarRating = ({ totalStars = 5, onSelectedStar }) => {
     const [selectedStars, setSelectedStars] = useState(0)
+
     return (
         <div className="flex">
             {createArray(totalStars).map((n, i) => (
                 <Star
                     key={i}
                     selected={selectedStars > i}
-                    onSelect={() => setSelectedStars(i + 1)}
+                    onSelect={() => {
+                        setSelectedStars(i + 1)
+                        onSelectedStar(i + 1)
+                    }}
                 ></Star>
             ))}
         </div>

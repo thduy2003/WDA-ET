@@ -16,6 +16,7 @@ import { useDebounce } from '../../hooks/useDebounce';
 import axios from 'axios';
 import { getProvince, searchProvince } from '../../api/ProvinceAPI';
 import useQueryConfig from '../../hooks/useQueryConfig';
+import { useSelector } from 'react-redux';
 const Home = () => {
 
     const [tabActive, setTabActive] = useState(1)
@@ -25,6 +26,7 @@ const Home = () => {
     const [provinceFrom, setProvinceFrom] = useState()
     const [provinceTo, setProvinceTo] = useState()
     const queryConfig = useQueryConfig()
+    const user = useSelector((state) => state.authReducer.authData)
     const navigate = useNavigate()
     const handleChangeTab = (e) => {
         if (e.target.innerText === 'Danh lam thắng cảnh') {
@@ -93,7 +95,10 @@ const Home = () => {
                         <Link to='/'>Trang chủ</Link>
                         <Link to='/trip'>Đề xuất lộ trình</Link>
                         <Link to='/forum'>Diễn đàn</Link>
-                        <Link to='/auth'><Button size='small' type='outline-white' iconPosition='left' iconLeft={<ProfileCircle size="20" color="#FAFBFC" variant="Bold" />}>Đăng kí</Button></Link>
+                        {user ? <div className='flex items-center'>
+                            <ProfileCircle size="20" color="#FAFBFC" variant="Bold" />
+                            <div className='ml-1'>{user.user.name}</div>
+                        </div> : <Link to='/auth'><Button size='small' type='outline-white' iconPosition='left' iconLeft={<ProfileCircle size="20" color="#FAFBFC" variant="Bold" />}>Đăng kí</Button></Link>}
                     </div>
                 </div>
                 <div className='mx-auto text-[#FAFBFC] my-[115px] w-[780px] text-[57px] leading-[64px] font-semibold text-center'>

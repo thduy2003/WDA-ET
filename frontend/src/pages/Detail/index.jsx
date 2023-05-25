@@ -18,12 +18,14 @@ import { Archive, Layer, Airplane } from 'iconsax-react';
 import Gallery from './Gallery/Gallery';
 import SliderImage from './Gallery/SliderImage';
 import { getProvinceById } from '../../api/ProvinceAPI';
+import { useSelector } from 'react-redux';
 
 const Detail = ({ position = "Long An" }) => {
     let [zoom, setZoom] = useState('false');
     const [tabActive, setTabActive] = useState(1)
     const { id } = useParams()
     const [detail, setDetail] = useState()
+    const user = useSelector((state) => state.authReducer.authData)
     const handleChangeTab = (e) => {
         if (e.target.innerText === 'Danh lam thắng cảnh') {
             setTabActive(1)
@@ -64,7 +66,10 @@ const Detail = ({ position = "Long An" }) => {
                         <Link to='/'>Trang chủ</Link>
                         <Link to='/trip'>Đề xuất lộ trình</Link>
                         <Link to='/forum'>Diễn đàn</Link>
-                        <Link to='/auth'><Button size='small' type='outline-white' iconPosition='left' iconLeft={<ProfileCircle size="20" color="#FAFBFC" variant="Bold" />}>Đăng kí</Button></Link>
+                        {user ? <div className='flex items-center'>
+                            <ProfileCircle size="20" color="#FAFBFC" variant="Bold" />
+                            <div className='ml-1'>{user.user.name}</div>
+                        </div> : <Link to='/auth'><Button size='small' type='outline-white' iconPosition='left' iconLeft={<ProfileCircle size="20" color="#FAFBFC" variant="Bold" />}>Đăng kí</Button></Link>}
                     </div>
                 </div>
                 <div className='mx-auto text-[#FAFBFC] my-[115px] w-[780px] text-[57px] leading-[64px] font-semibold text-center'>

@@ -11,3 +11,11 @@ export const getProvince = async () => {
     const result = await API.get('/province')
     return result.data
 }
+export const searchProvince = async (data) => {
+    const result = await API.post('/province/search', data)
+    return result.data
+}
+export const getProvinceById = async (id) => {
+    const result = await API.get(`/province/${id}`)
+    return result.data
+}

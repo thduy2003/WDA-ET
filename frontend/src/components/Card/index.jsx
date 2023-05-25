@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 import { Popover } from 'antd';
 
 import SaveIcon from '../Icons/SaveIcon';
+import { Link } from 'react-router-dom';
 
 const Card = props => {
     const { data, widthImage, heightImage } = props;
@@ -21,19 +22,19 @@ const Card = props => {
                 <SaveIcon />
             </div>
 
-            <a
-                href={`/`}>
+            <Link
+                to='/detail'>
                 <img className={classNameImage} style={{ width: widthImage, height: heightImage }} src={data.image} />
-            </a>
+            </Link>
             <div className="p-4 flex flex-col flex-1">
                 <div className="flex flex-1 flex-col">
 
-                    <a
-                        href={`/`}>
+                    <Link
+                        to='/detail'>
                         <h5 className="mb-[2px] text-xl font-semibold line-clamp-1  text-primary ">
                             {data.title}
                         </h5>
-                    </a>
+                    </Link>
 
                     <p className="mb-3 text-[14px] leading-5 font-normal text-[#888888] ">
                         {data.place}

@@ -17,7 +17,7 @@ import Trip from './pages/Trip';
 
 const useRouteElement = () => {
     const user = useSelector((state) => state.authReducer.authData)
-
+    const navigate = useNavigate()
     // function ProtectedRoute() {
     //     const isLogged = window.localStorage.getItem('loggedIn');
     //     if (!isLogged) {
@@ -47,9 +47,9 @@ const useRouteElement = () => {
         },
         {
             path: '/forum',
-            element: <MainLayout>
+            element: user ? (<MainLayout>
                 <Forum />
-            </MainLayout>,
+            </MainLayout>) : <Navigate to='../auth' />,
 
         },
         {
@@ -59,12 +59,12 @@ const useRouteElement = () => {
             </MainLayout>
         },
         {
-            path: 'detail',
+            path: 'detail/:id',
             element: <Detail />
         },
         {
             path: 'auth',
-            element: <Auth />
+            element: user ? <Navigate to='/' /> : <Auth />
         },
         {
             path: 'admin',

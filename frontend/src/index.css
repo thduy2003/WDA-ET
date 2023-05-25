@@ -101,3 +101,9 @@ body {
 .ant-timeline-item {
   padding-bottom: 70px !important;
 }
+.style_images_detail img {
+  width: 100%;
+  height: 300px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}

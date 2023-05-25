@@ -1,13 +1,35 @@
 import { Collapse, Popover, Select, Timeline, Tooltip } from 'antd';
 import { Location, Star1 } from 'iconsax-react';
-import React, { useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { getProvince } from '../../api/ProvinceAPI';
+import qs from 'qs';
 import EllipseActiveIcon from '../../components/Icons/Ellipse';
 
 import SaveIcon from '../../components/Icons/SaveIcon';
+import { getTrip } from '../../api/TripAPI';
 const { Panel } = Collapse
 const Trip = () => {
     const [tabActive, setTabActive] = useState(1)
+    const [listProvinces, setListProvinces] = useState([])
+    const [provinceFrom, setProvinceFrom] = useState()
+    const [provinceTo, setProvinceTo] = useState()
+    const [cityRoute, setCityRoute] = useState([])
+    const navigate = useNavigate()
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const start = searchParams.get('start');
+    const end = searchParams.get('end');
+
+    const filter = {
+        start: provinceFrom ?? undefined,
+        end: provinceTo ?? undefined
+    }
+
+    const queryString = qs.stringify(filter, {
+        arrayFormat: 'comma',
+    });
+
     const handleChangeTab = (e) => {
         if (e.target.innerText === 'Danh lam thắng cảnh') {
             setTabActive(1)
@@ -19,14 +41,63 @@ const Trip = () => {
             setTabActive(3)
         }
     }
-    const array = []
+
+    const handleChangeSelectFrom = (e) => {
+        const selectedFrom = listProvinces.find(item => item.value === e).label;
+        setProvinceFrom(selectedFrom)
+
+    }
+    const handleChangeSelectTo = (e) => {
+        const selectedTo = listProvinces.find(item => item.value === e).label;
+        setProvinceTo(selectedTo)
+
+    }
+
+    const handleFiter = () => {
+        navigate(`/trip?${queryString}`);
+
+    }
+
+    useEffect(() => {
+        const fetchProvince = async () => {
+            const data = await getProvince()
+
+            const provinceItems = data.data.map(province => ({
+                value: province._id,
+                label: province.name
+            }));
+            setListProvinces(provinceItems);
+        }
+        fetchProvince()
+    }, [])
+    useEffect(() => {
+        handleFiter()
+    }, [queryString])
+
+    useEffect(() => {
+        if (start && end) {
+            const fetchTrip = async () => {
+                const result = await getTrip({
+                    start, end
+                })
+                console.log(result)
+                if (result) {
+                    setCityRoute(result.data.cityRoute)
+                }
+
+            }
+            fetchTrip()
+        }
+    }, [start, end])
+    console.log(cityRoute)
+
     return (
         <div className='mt-[48px] mb-[56px] w-full ' style={{ backgroundImage: 'url(/images/map.png)' }}>
             <div className='flex gap-x-[92px]'>
                 <div className=' w-[680px] h-full'>
 
                     <div className='flex flex-row gap-x-2 '>
-                        {array.length > 0 ? array?.map((a, i) => {
+                        {cityRoute?.length > 0 ? cityRoute?.map((a, i) => {
                             return <div key={i} className='w-full  flex flex-col mt-5  items-center'>
                                 {
 
@@ -34,38 +105,39 @@ const Trip = () => {
                                         <div className='px-1 py-1 flex flex-col items-center rounded min-w-[170px]' style={{ border: '1px solid rgb(44, 56, 130)' }}>
                                             <div className='flex items-center'>
                                                 <span className='mr-2'><Location /></span>
-                                                <p className='font-bold text-[#2C3882] text-sm '>  {a[0].children}</p>
+                                                <p className='font-bold text-[#2C3882] text-sm '>  {a[0].label}</p>
                                             </div>
                                         </div>
                                         {a.map((b, x) => {
-                                            return <div key={x} className=' flex w-[100%]   justify-center items-center'>
-                                                <div className='w-full flex justify-between items-center'>
-                                                    <div className='flex flex-col lg:flex-row  justify-end items-stretch lg:items-center flex-1'>
-                                                        <div className='px-0 lg:px-2 py-0 lg:py-4 max-w-xl'>
+                                            if (x > 0 && x < a.length - 1)
+                                                return <div key={x} className=' flex w-[100%]   justify-center items-center'>
+                                                    <div className='w-full flex justify-between items-center'>
+                                                        <div className='flex flex-col lg:flex-row  justify-end items-stretch lg:items-center flex-1'>
+                                                            <div className='px-0 lg:px-2 py-0 lg:py-4 max-w-xl'>
 
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: 'max-content' }}>
-                                                        <div className={`w-0.5	  bg-[#2C3882] ${x > 0 ? 'h-[48px]' : 'h-[11px]'} self-center`}></div>
-                                                        {x > 0 && <div className='bg-[#2C3882] p-2  mx-5 text-white flex rounded-full justify-center text-center items-center w-[12px] h-[12px]'>
+                                                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: 'max-content' }}>
+                                                            <div className={`w-0.5	  bg-[#2C3882] ${x > 0 ? 'h-[48px]' : 'h-[11px]'} self-center`}></div>
+                                                            {x > 0 && <div className='bg-[#2C3882] p-2  mx-5 text-white flex rounded-full justify-center text-center items-center w-[12px] h-[12px]'>
 
-                                                        </div>}
-                                                        <div className={`w-0.5 bg-[#2C3882] self-center ${x > 0 ? 'h-[48px]' : 'h-[21px]'}`}></div>
-                                                    </div>
-                                                    <div className='flex flex-col lg:flex-row  justify-start items-stretch lg:items-center flex-1'>
-                                                        <div className='flex items-center'>
-                                                            {x > 0 ? b.children : ''}
+                                                            </div>}
+                                                            <div className={`w-0.5 bg-[#2C3882] self-center ${x > 0 ? 'h-[48px]' : 'h-[21px]'}`}></div>
+                                                        </div>
+                                                        <div className='flex flex-col lg:flex-row  justify-start items-stretch lg:items-center flex-1'>
+                                                            <div className='flex items-center'>
+                                                                {b.label}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
                                         })}
 
                                         <div className=' flex w-[100%]   justify-center items-center'>
                                             <div className='px-4 py-1 flex flex-col items-center rounded' style={{ border: '1px solid rgb(44, 56, 130)' }}>
                                                 <div className='flex items-center'>
                                                     <span className='mr-2'><Location /></span>
-                                                    <p className='font-bold text-[#2C3882] text-sm '>  {a[a.length - 1].children}</p>
+                                                    <p className='font-bold text-[#2C3882] text-sm '>  {a[a.length - 1].label}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -87,8 +159,8 @@ const Trip = () => {
                     <div className='flex flex-col gap-y-[10px] w-full'>
                         <h2 className='text-[#141716] text-[28px] leading-[36px] font-semibold'>Lộ trình của bạn</h2>
                         <div className='flex items-center gap-x-4 w-full'>
-                            <Select className='w-full' placeholder='Chọn điểm đi' />
-                            <Select className='w-full' placeholder='Chọn điểm đến' /> </div>
+                            <Select onChange={handleChangeSelectFrom} options={listProvinces} className='w-full' placeholder='Chọn điểm đi' />
+                            <Select onChange={handleChangeSelectTo} options={listProvinces} className='w-full' placeholder='Chọn điểm đến' /> </div>
                     </div>
                     <div className='flex flex-col gap-y-[16px]'>
                         <h2 className='text-[#141716] text-[28px] leading-[36px] font-semibold'>Địa điểm đề xuất</h2>

@@ -1,5 +1,5 @@
 import { Form, Input } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '../../components/Button';
 import Logo from '../../components/Logo';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,14 +8,16 @@ import { Navigate, useNavigate } from 'react-router-dom';
 const Auth = () => {
     const [isSignup, setIsSignup] = useState(true)
     const [form] = Form.useForm()
-
+    const [errorMessage, setErrorMessage] = useState(null)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const user = useSelector((state) => state.authReducer.authData)
+    let error = useSelector((state) => state.authReducer.error)
     const loading = useSelector(state => state.authReducer.loading)
     if (user) {
         navigate('/forum')
     }
+
     return (
         <div className='grid grid-cols-3 h-[100vh] '>
             <div className='col-span-2'>
@@ -26,13 +28,16 @@ const Auth = () => {
                 <div className='w-fit flex mt-[51px] mb-9' style={{ borderBottom: '1.5px solid #C2C2C2' }}>
                     <div onClick={() => {
                         setIsSignup(true)
+                        setErrorMessage(null)
                         form.resetFields()
                     }} className={`mr-9 pb-2 mb-[-1px] cursor-pointer text-xl ${isSignup ? 'border-b-[1.5px] border-b-p1 font-semibold ' : 'text-third'}`} >Đăng ký</div>
                     <div onClick={() => {
                         setIsSignup(false)
+                        setErrorMessage(null)
                         form.resetFields()
                     }} className={`pb-2 text-xl cursor-pointer ${isSignup ? 'text-third' : 'border-b-[1.5px] border-b-p1 font-semibold '}mb-[-1px]`}>Đăng nhập</div>
                 </div>
+
                 <Form className='auth-form' form={form} layout='vertical'>
                     <Form.Item label="Email" rules={[
                         {

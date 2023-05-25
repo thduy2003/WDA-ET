@@ -14,11 +14,13 @@ import { LocationData } from '../../data/LocationData';
 import { VillageData } from '../../data/VillageData';
 import { useDebounce } from '../../hooks/useDebounce';
 import axios from 'axios';
+import { searchProvince } from '../../api/ProvinceAPI';
 const Home = () => {
 
     const [tabActive, setTabActive] = useState(1)
     const [search, setSearch] = useState('')
     const [provinces, setProvinces] = useState([]);
+    const [dataProvince, setDataProvince] = useState([])
     const handleChangeTab = (e) => {
         if (e.target.innerText === 'Danh lam thắng cảnh') {
             setTabActive(1)
@@ -33,30 +35,39 @@ const Home = () => {
     const onChangeInput = (e) => {
         setSearch(e.target.value)
     }
-   
+
     let debounceValue = ''
 
     debounceValue = useDebounce(search, 700)
-    
+    useEffect(() => {
+        const fetchSearch = async () => {
+            const result = await searchProvince({ search: debounceValue })
+            setDataProvince(result.data)
+        }
+        if (debounceValue) {
+            fetchSearch()
+        }
+    }, [debounceValue])
+
     useEffect(() => {
         const fetchProvinces = async () => {
-          try {
-            const response = await axios.get("https://provinces.open-api.vn/api/?depth=1");
-            const data = response.data;
-            
-            const formattedProvinces = data.map(province => ({
-              value: province.name,
-              label: province.name
-            }));
-            setProvinces(formattedProvinces);
-          } catch (error) {
-            console.error(error);
-          }
+            try {
+                const response = await axios.get("https://provinces.open-api.vn/api/?depth=1");
+                const data = response.data;
+
+                const formattedProvinces = data.map(province => ({
+                    value: province.name,
+                    label: province.name
+                }));
+                setProvinces(formattedProvinces);
+            } catch (error) {
+                console.error(error);
+            }
         };
-        fetchProvinces(); 
+        fetchProvinces();
         return () => {
         };
-      }, []); 
+    }, []);
     return (
         <>
             <div className='banner-home' style={{
@@ -73,7 +84,7 @@ const Home = () => {
                         <Link to='/'>Trang chủ</Link>
                         <Link to='/trip'>Đề xuất lộ trình</Link>
                         <Link to='/forum'>Diễn đàn</Link>
-                        <Link to='/'><Button size='small' type='outline-white' iconPosition='left' iconLeft={<ProfileCircle size="20" color="#FAFBFC" variant="Bold" />}>Đăng kí</Button></Link>
+                        <Link to='/auth'><Button size='small' type='outline-white' iconPosition='left' iconLeft={<ProfileCircle size="20" color="#FAFBFC" variant="Bold" />}>Đăng kí</Button></Link>
                     </div>
                 </div>
                 <div className='mx-auto text-[#FAFBFC] my-[115px] w-[780px] text-[57px] leading-[64px] font-semibold text-center'>
@@ -88,13 +99,13 @@ const Home = () => {
                                 <div className='p-6 bg-white min-w-[811px] '>
                                     <div>
                                         <h3 className='mb-4 text-[#141716] text-xl font-semibold'>Tỉnh</h3>
-                                        <div className='relative w-full'>
-                                            <img className='w-full h-[102px] rounded-lg' src='/images/longan.png' />
+                                        <Link to={`/detail/${dataProvince && dataProvince[0]?._id}`} className='relative w-full'>
+                                            <img className='w-full h-[102px] object-cover rounded-lg' src={`http://127.0.0.1:6789/public/images/provinces/${dataProvince && dataProvince[0]?.images[0]}`} />
                                             <div className='bg-[#141716] w-full h-full absolute top-0 rounded-lg opacity-50'>
 
                                             </div>
-                                            <h2 className='text-base absolute top-[50%] left-[50%] -translate-x-1/2  -translate-y-1/2 font-medium text-[#FAFBFC]'>Tỉnh Long An</h2>
-                                        </div>
+                                            <h2 className='text-base absolute top-[50%] left-[50%] -translate-x-1/2  -translate-y-1/2 font-medium text-[#FAFBFC]'>{dataProvince && dataProvince[0]?.name}</h2>
+                                        </Link>
                                         <h3 className='mb-4 text-[#141716] text-xl font-semibold mt-9'>Địa điểm đề xuất</h3>
                                         <div className='flex flex-col  gap-y-3 mt-4'>
                                             <div className='flex justify-between items-center'>

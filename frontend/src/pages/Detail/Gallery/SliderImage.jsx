@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { RelatedImageData } from '../../../data/RelatedImageData';
 import { ArrowRight2, ArrowLeft2 } from 'iconsax-react';
-const SliderImage = ({ onChangeZoom = f => f }) => {
+const SliderImage = ({ onChangeZoom = f => f, imagesData }) => {
     const [index, setIndex] = useState(0)
 
     const ChangeIndex = (dir) => {
@@ -12,11 +12,11 @@ const SliderImage = ({ onChangeZoom = f => f }) => {
             <div className="flex flex-col items-center gap-5">
                 <div className="text-[20px] leading-[28px] text-white font-semibold mb-4"> Các hình ảnh liên quan </div>
                 <div className="w-[900px] h-[540px]">
-                    <img className="w-full h-full object-cover" src={RelatedImageData[index].source}></img>
+                    <img className="w-full h-full object-cover" src={`http://127.0.0.1:6789/public/images/provinces/${imagesData[index]}`}></img>
                 </div>
                 <div className="flex gap-3">
-                    {RelatedImageData.map((n, i) => <div key={i} onClick={() => setIndex(i)} className={`cursor-pointer ${i == index ? 'opacity-100' : 'opacity-30'}`}>
-                        <img className="w-[100px] h-[80px]" src={RelatedImageData[i].source}></img>
+                    {imagesData.map((n, i) => <div key={i} onClick={() => setIndex(i)} className={`cursor-pointer ${i == index ? 'opacity-100' : 'opacity-30'}`}>
+                        <img className="w-[100px] h-[80px]" src={`http://127.0.0.1:6789/public/images/provinces/${imagesData[i]}`}></img>
                     </div>)}
                 </div>
             </div>

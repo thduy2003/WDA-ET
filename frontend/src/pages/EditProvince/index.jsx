@@ -85,6 +85,10 @@ const EditProvince = () => {
                                     const data = new FormData()
 
                                     data.append("name", values.name)
+                                    data.append("area", values.area)
+                                    data.append("num_traveler", values.num_traveler)
+                                    data.append("overview", data.overview)
+                                    data.append("funfact", data.funfact)
                                     for (const image of images) {
                                         data.append("images", image);
                                     }

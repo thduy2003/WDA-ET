@@ -7,7 +7,8 @@ import EditLandMark from './pages/EditLandMark';
 import EditProvince from './pages/EditProvince';
 import Forum from './pages/Forum';
 import Home from './pages/Home';
-import ManageLandMark from './pages/ManageLandMark';
+
+import ManageProvince from './pages/ManageProvince';
 import NotFound from './pages/NotFound';
 
 import Trip from './pages/Trip';
@@ -67,8 +68,8 @@ const useRouteElement = () => {
                     element: <EditLandMark />
                 },
                 {
-                    path: '/admin/landmark',
-                    element: <ManageLandMark />
+                    path: '/admin/province',
+                    element: <ManageProvince />
                 },
                 {
                     path: '/admin/create-province',

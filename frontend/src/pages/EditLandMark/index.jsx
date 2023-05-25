@@ -13,12 +13,16 @@ const EditLandMark = () => {
         enjoyContent: ''
     });
     const [dataLocation, setDataLocation] = React.useState()
-    const [image, setImage] = React.useState();
-    const [endTime, setEndTime] = React.useState();
-    const [starTime, setStartTime] = React.useState();
+    const [images, setImages] = React.useState()
     const fileOnChange = (event) => {
-        console.log(event.target.files)
 
+        const files = event.target.files;
+        if (files) {
+            setImages([...files]);
+        } else {
+            setImages(null);
+            alert("Please select a file.");
+        }
     };
     const autocompleteRef = useRef(null)
 
@@ -57,7 +61,7 @@ const EditLandMark = () => {
                 <div className='bg-white rounded-lg p-6 w-full' style={{ boxShadow: '0px 2px 8px 2px rgba(0, 0, 0, 0.08)' }}>
                     <h2 className='text-xl font-semibold'>Thông tin chính</h2>
                     <div className='flex w-full gap-x-4'>
-                        <Form.Item className='w-full' >
+                        <Form.Item label='Gợi ý' className='w-full' >
                             <div ref={autocompleteRef} className="autocomplete-container" style={{ position: "relative" }}></div>
                         </Form.Item>
                         <Form.Item className='w-full' label='Tên địa danh' name='name' >
@@ -72,54 +76,32 @@ const EditLandMark = () => {
                             ]} />
                         </Form.Item>
                     </div>
+                    <div className='flex w-full gap-x-4 justify-between'>
+                        <div>
+                            {dataLocation?.properties?.address_line2}
+                        </div>
+                        <div>
+                            {dataLocation?.properties?.lat && `https://www.google.com/maps/search/${dataLocation?.properties?.lat},${dataLocation?.properties?.lon}`}
+                        </div>
+                    </div>
                     <div className='flex w-full gap-x-4'>
-                        {dataLocation?.properties?.address_line2}
+
                         <Form.Item className='w-full' label="Địa chỉ" name='address'>
 
                             <Input placeholder="Nhập địa chỉ" />
                         </Form.Item>
-                        {dataLocation?.properties?.lat && `https://www.google.com/maps/search/${dataLocation?.properties?.lat},${dataLocation?.properties?.lon}`}
-                        <Form.Item className='w-full' label="Google Map" name='map'>
 
+                        <Form.Item className='w-full' label="Google Map" name='map'>
                             <Input placeholder="Nhập link" />
                         </Form.Item>
                     </div>
-                    <div className='flex w-full items-center gap-x-4'>
+                    <div className='flex w-full gap-x-4'>
 
-                        <div className='flex w-full  gap-x-4'>
-                            <Form.Item
+                        <div className='flex w-full items-center gap-x-4'>
+                            <Form.Item className='w-full' label="Giờ mở cửa" name='start_time'> <Input placeholder="Nhập giờ mở cửa" /> </Form.Item>
 
-                                name='start_time'
-                                label='Giờ mở cửa'
-
-                            >
-                                <TimePicker
-
-                                    onChange={(_, dateString) => {
-                                        if (dateString) {
-                                            setStartTime(dateString);
-                                        }
-                                    }}
-                                    showTime
-                                />
-                            </Form.Item>
                             <span>Đến</span>
-                            <Form.Item
-
-                                name='end_time'
-                                label='Giờ đóng cửa'
-
-                            >
-                                <TimePicker
-
-                                    onChange={(_, dateString) => {
-                                        if (dateString) {
-                                            setEndTime(dateString);
-                                        }
-                                    }}
-                                    showTime
-                                />
-                            </Form.Item>
+                            <Form.Item className='w-full' label="Giờ đóng cửa" name='end_time'> <Input placeholder="Nhập đóng cửa" /> </Form.Item>
                         </div>
 
                         <Form.Item className='w-full' label="Ngày trong tuần" name='days'>

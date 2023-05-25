@@ -17,7 +17,7 @@ const AdminLayout = () => {
                             }>
                                 Đăng thông tin địa danh
                             </NavLink>
-                            <NavLink to='/admin/landmark' className={({ isActive }) =>
+                            <NavLink to='/admin/province' className={({ isActive }) =>
                                 isActive ? 'bg-[#D02F3D] font-bold p-3 rounded-lg text-[#FAFBFC]' : 'text-base font-medium p-3'
                             }>
                                 Quản lý địa danh

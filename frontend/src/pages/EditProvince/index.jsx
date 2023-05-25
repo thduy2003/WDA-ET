@@ -22,7 +22,7 @@ const EditProvince = () => {
         }
     };
 
-    console.log(images)
+
     return (
         <div className='bg-[#f1f1f1] w-full '>
             <Form form={form} layout='vertical' className='px-6 pt-10'>

@@ -147,7 +147,7 @@ const Detail = ({ position = "Long An" }) => {
                                     <div className='overflow-hidden'>
                                         <Carousel
                                             margin={32}
-                                            datas={tabActive === 1 ? CardData : tabActive === 2 ? HistoryData : VillageData}
+                                            datas={[]}
 
                                             items={5}
                                             renderItem={item => {

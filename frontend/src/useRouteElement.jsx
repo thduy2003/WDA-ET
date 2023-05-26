@@ -12,6 +12,7 @@ import Home from './pages/Home';
 
 import ManageProvince from './pages/ManageProvince';
 import NotFound from './pages/NotFound';
+import Profile from './pages/Profile';
 
 import Trip from './pages/Trip';
 
@@ -58,7 +59,12 @@ const useRouteElement = () => {
                 <Detail />
 
         },
-
+        {
+            path: '/profile',
+            element: <MainLayout>
+                <Profile />
+            </MainLayout>
+        },
         {
             path: 'auth',
             element: user ? <Navigate to='/' /> : <Auth />

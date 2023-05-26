@@ -18,6 +18,7 @@ const Trip = () => {
     const [provinceTo, setProvinceTo] = useState()
     const [cityRoute, setCityRoute] = useState([])
     const [isLoading, setIsLoading] = useState(false)
+
     const navigate = useNavigate()
 
 
@@ -41,8 +42,7 @@ const Trip = () => {
     }
     const queryConfig = useQueryConfig()
 
-    const valueStart = queryConfig.start ? listProvinces.find(item => item.label === queryConfig?.start)?.value : ''
-    const valueEnd = queryConfig.end ? listProvinces.find(item => item.label === queryConfig?.end)?.value : ''
+
     const handleChangeSelectFrom = (e) => {
         const selectedFrom = listProvinces.find(item => item.value === e).label;
         setProvinceFrom(selectedFrom)
@@ -93,9 +93,12 @@ const Trip = () => {
 
     useEffect(() => {
 
+
         if (queryConfig.start && queryConfig.end) {
             try {
                 setIsLoading(true)
+                setProvinceFrom(queryConfig.start)
+                setProvinceTo(queryConfig.end)
                 const fetchTrip = async () => {
                     const result = await getTrip({
                         start: queryConfig.start, end: queryConfig.end
@@ -186,8 +189,8 @@ const Trip = () => {
                     <div className='flex flex-col gap-y-[10px] w-full'>
                         <h2 className='text-[#141716] text-[28px] leading-[36px] font-semibold'>Lộ trình của bạn</h2>
                         <div className='flex items-center gap-x-4 w-full'>
-                            <Select onChange={handleChangeSelectFrom} defaultValue={valueStart} options={listProvinces} className='w-full' placeholder='Chọn điểm đi' />
-                            <Select onChange={handleChangeSelectTo} defaultValue={valueEnd} options={listProvinces} className='w-full' placeholder='Chọn điểm đến' /> </div>
+                            <Select value={provinceFrom ? listProvinces.find(item => item.label === provinceFrom)?.value : undefined} onChange={handleChangeSelectFrom} defaultValue={provinceFrom ? listProvinces.find(item => item.label === provinceFrom)?.value : undefined} options={listProvinces} className='w-full' placeholder='Chọn điểm đi' />
+                            <Select value={provinceTo ? listProvinces.find(item => item.label === provinceTo)?.value : undefined} onChange={handleChangeSelectTo} defaultValue={provinceTo ? listProvinces.find(item => item.label === provinceTo)?.value : undefined} options={listProvinces} className='w-full' placeholder='Chọn điểm đến' /> </div>
                     </div>
                     <div className='flex flex-col gap-y-[16px]'>
                         <h2 className='text-[#141716] text-[28px] leading-[36px] font-semibold'>Địa điểm đề xuất</h2>

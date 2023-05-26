@@ -19,6 +19,7 @@ import Trip from './pages/Trip';
 
 const useRouteElement = () => {
     const user = useSelector((state) => state.authReducer.authData)
+
     const navigate = useNavigate()
     // function ProtectedRoute() {
     //     const isLogged = window.localStorage.getItem('loggedIn');

@@ -60,14 +60,28 @@ const DetailLandMark = ({ position = "Long An" }) => {
             // container
             <>
                 <div className='banner-home' style={{
-                    backgroundImage: `url(${imageBanner})`,
+                    backgroundImage: `url("${imageBanner}")`,
                     height: '478px',
                     width: '100%',
                     backgroundSize: '100%',
                     backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat'
+                    backgroundRepeat: 'no-repeat',
+                    position: 'relative',
+                    zIndex: 0
                 }}>
-                    <div className='flex items-center justify-between px-[92px] py-[16px]'>
+                    <div
+                        className="overlay"
+                        style={{
+                            backgroundColor: 'rgba(0, 0, 0, 0.5)', // Adjust the opacity by changing the last value (0.5 in this case)
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            zIndex: -2
+                        }}
+                    ></div>
+                    <div className='flex items-center z-[99999] justify-between px-[92px] py-[16px]'>
                         <Logo color='white' />
                         <div className='flex text-[#FAFBFC] text-base font-medium flex-row gap-x-9 items-center'>
                             <Link to='/'>Trang chủ</Link>

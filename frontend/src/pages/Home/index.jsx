@@ -1,4 +1,4 @@
-import { Col, Dropdown, Popconfirm, Row, Select } from 'antd';
+import { Col, Dropdown, Popconfirm, Popover, Row, Select } from 'antd';
 import { ArrowCircleRight2, Call, Clock, CloseCircle, Location, ProfileCircle, SearchNormal1, Star1 } from 'iconsax-react';
 import React, { useEffect, useState } from 'react';
 import { createSearchParams, Link, useNavigate } from 'react-router-dom';
@@ -16,8 +16,9 @@ import { useDebounce } from '../../hooks/useDebounce';
 import axios from 'axios';
 import { getProvince, searchProvince } from '../../api/ProvinceAPI';
 import useQueryConfig from '../../hooks/useQueryConfig';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getAllLandMarksByType } from '../../api/LandMarkAPI';
+import { logOut } from '../../actions/AuthAction';
 const Home = () => {
 
     const [tabActive, setTabActive] = useState(1)
@@ -30,6 +31,7 @@ const Home = () => {
     const [listLandMarks, setListLandMarks] = useState()
     const user = useSelector((state) => state.authReducer.authData)
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const handleChangeTab = (e) => {
         if (e.target.innerText === 'Danh lam thắng cảnh') {
             setTabActive(1)
@@ -109,10 +111,14 @@ const Home = () => {
                         <Link to='/'>Trang chủ</Link>
                         <Link to='/trip'>Đề xuất lộ trình</Link>
                         <Link to='/forum'>Diễn đàn</Link>
-                        {user ? <div className='flex items-center'>
-                            <ProfileCircle size="20" color="#FAFBFC" variant="Bold" />
-                            <div className='ml-1'>{user.user.name}</div>
-                        </div> : <Link to='/auth'><Button size='small' type='outline-white' iconPosition='left' iconLeft={<ProfileCircle size="20" color="#FAFBFC" variant="Bold" />}>Đăng kí</Button></Link>}
+                        {user ? <Popover content={<div className='cursor-pointer' onClick={() => {
+                            dispatch(logOut())
+                        }}>Đăng xuất</div>} title={null}>
+                            <div className='flex items-center'>
+                                <ProfileCircle size="20" color="#FAFBFC" variant="Bold" />
+                                <div className='ml-1'>{user.user.name}</div>
+                            </div>
+                        </Popover> : <Link to='/auth'><Button size='small' type='outline-white' iconPosition='left' iconLeft={<ProfileCircle size="20" color="#FAFBFC" variant="Bold" />}>Đăng kí</Button></Link>}
                     </div>
                 </div>
                 <div className='mx-auto text-[#FAFBFC] my-[115px] w-[780px] text-[57px] leading-[64px] font-semibold text-center'>

@@ -19,12 +19,14 @@ import Gallery from './Gallery/Gallery';
 import SliderImage from './Gallery/SliderImage';
 import { getProvinceById } from '../../api/ProvinceAPI';
 import { useSelector } from 'react-redux';
+import { getLandMarks } from '../../api/TripAPI';
 
 const Detail = ({ position = "Long An" }) => {
     let [zoom, setZoom] = useState('false');
     const [tabActive, setTabActive] = useState(1)
     const { id } = useParams()
     const [detail, setDetail] = useState()
+    const [listLandMarks, setListLandMarks] = useState()
     const user = useSelector((state) => state.authReducer.authData)
     const handleChangeTab = (e) => {
         if (e.target.innerText === 'Danh lam thắng cảnh') {
@@ -37,7 +39,7 @@ const Detail = ({ position = "Long An" }) => {
             setTabActive(3)
         }
     }
-    console.log(id)
+
     useEffect(() => {
         const fetchDetail = async () => {
             const result = await getProvinceById(id)
@@ -47,20 +49,42 @@ const Detail = ({ position = "Long An" }) => {
             fetchDetail()
         }
     }, [id])
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await getLandMarks({ provinceArr: [detail.name], typeId: tabActive })
+            setListLandMarks(result.data)
+        }
+        fetchData()
+    }, [detail, tabActive])
     const imageBanner = detail ? `http://127.0.0.1:6789/public/images/provinces/${detail?.images[0]}` : '/images/banner.png'
 
     return (
         // container
         <>
             <div className='banner-home' style={{
-                backgroundImage: `url(${imageBanner})`,
+                backgroundImage: `url("${imageBanner}")`,
                 height: '478px',
                 width: '100%',
+
                 backgroundSize: '100%',
                 backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat'
+                backgroundRepeat: 'no-repeat',
+                zIndex: 0,
+                position: 'relative'
             }}>
-                <div className='flex items-center justify-between px-[92px] py-[16px]'>
+                <div
+                    className="overlay"
+                    style={{
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Adjust the opacity by changing the last value (0.5 in this case)
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        zIndex: -2
+                    }}
+                ></div>
+                <div className='flex items-center z-[-1] justify-between px-[92px] py-[16px]'>
                     <Logo color='white' />
                     <div className='flex text-[#FAFBFC] text-base font-medium flex-row gap-x-9 items-center'>
                         <Link to='/'>Trang chủ</Link>
@@ -144,19 +168,19 @@ const Detail = ({ position = "Long An" }) => {
                                         <div onClick={(e) => handleChangeTab(e)} className={`mx-9 cursor-pointer pb-2 mb-[-1px] text-xl ${tabActive === 2 ? 'border-b-[1.5px] border-b-p1 font-semibold ' : 'text-third'}`}>Di tích lịch sử</div>
                                         <div onClick={(e) => handleChangeTab(e)} className={`cursor-pointer pb-2 mb-[-1px] text-xl ${tabActive === 3 ? 'border-b-[1.5px] border-b-p1 font-semibold ' : 'text-third'}`}>Làng nghề truyến thống</div>
                                     </div>
-                                    <div className='overflow-hidden'>
+                                    {listLandMarks && <div className='overflow-hidden'>
                                         <Carousel
                                             margin={32}
-                                            datas={[]}
+                                            datas={listLandMarks ?? []}
 
-                                            items={5}
+                                            items={listLandMarks.length}
                                             renderItem={item => {
                                                 return (
                                                     <Card data={item} widthImage={300} heightImage={257} />
                                                 );
                                             }}
                                         />
-                                    </div>
+                                    </div>}
                                 </div>
                             </div>
                         </>

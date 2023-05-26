@@ -128,7 +128,7 @@ const Trip = () => {
 
         try {
             const fetchData = async () => {
-                const result = await getLandMarks({ provinceArr, typeId: 1 })
+                const result = await getLandMarks({ provinceArr, typeId: tabActive })
 
                 setLandMarks(result.data)
             }
@@ -136,7 +136,7 @@ const Trip = () => {
         } catch (error) {
             console.log(error)
         }
-    }, [cityRoute])
+    }, [cityRoute, tabActive])
     console.log(landMarks)
     return (
         <div className='mt-[48px] mb-[56px] w-full ' style={{ backgroundImage: 'url(/images/map.png)' }}>

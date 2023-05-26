@@ -43,7 +43,7 @@ const Comment = ({ pos, provinceId }) => {
         }
 
     }, [provinceId])
-    console.log(dataComment)
+
     return (
         <div>
             <div>
@@ -67,10 +67,11 @@ const Comment = ({ pos, provinceId }) => {
 
                                     try {
                                         const result = await postCommentProvince({ province_id: provinceId, author_id: user.user._id, rating: countStar, content: inputComment })
+                                        console.log(result)
                                         if (result) {
                                             setInputComment('')
                                             setCountStar(0)
-                                            console.log(result)
+                                            await getAllCommentsProvince(provinceId)
                                         }
                                     } catch (error) {
                                         console.log(error)

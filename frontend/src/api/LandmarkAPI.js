@@ -19,3 +19,7 @@ export const getLandmarkById = async (id) => {
     const result = await API.get(`/landmark/${id}`)
     return result.data
 }
+export const getAllLandMarksByType = async (data) => {
+    const result = await API.get('landmark/getAll', { params: data })
+    return result.data
+}

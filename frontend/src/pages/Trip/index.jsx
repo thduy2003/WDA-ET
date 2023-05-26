@@ -7,9 +7,10 @@ import qs from 'qs';
 import EllipseActiveIcon from '../../components/Icons/Ellipse';
 
 import SaveIcon from '../../components/Icons/SaveIcon';
-import { getTrip } from '../../api/TripAPI';
+import { getLandMarks, getTrip } from '../../api/TripAPI';
 import useQueryConfig from '../../hooks/useQueryConfig';
 import QueryString from 'qs';
+import { serverPublic } from '../../utils';
 const { Panel } = Collapse
 const Trip = () => {
     const [tabActive, setTabActive] = useState(1)
@@ -18,7 +19,7 @@ const Trip = () => {
     const [provinceTo, setProvinceTo] = useState()
     const [cityRoute, setCityRoute] = useState([])
     const [isLoading, setIsLoading] = useState(false)
-
+    const [landMarks, setLandMarks] = useState([])
     const navigate = useNavigate()
 
 
@@ -121,6 +122,22 @@ const Trip = () => {
     }, [queryConfig.start, queryConfig.end])
 
 
+    const provinceArr = [].concat(...cityRoute).map((obj) => obj.label)
+
+    useEffect(() => {
+
+        try {
+            const fetchData = async () => {
+                const result = await getLandMarks({ provinceArr, typeId: 1 })
+
+                setLandMarks(result.data)
+            }
+            fetchData()
+        } catch (error) {
+            console.log(error)
+        }
+    }, [cityRoute])
+    console.log(landMarks)
     return (
         <div className='mt-[48px] mb-[56px] w-full ' style={{ backgroundImage: 'url(/images/map.png)' }}>
             <div className='flex gap-x-[92px]'>
@@ -206,49 +223,46 @@ const Trip = () => {
                             </div>
                         </div>
                     </div>
-                    <div className=''>
+                    <div className='max-h-[400px] overflow-auto overflow-y-auto overflow-x-hidden'>
+
                         <Collapse
                             defaultActiveKey={['1']}
                             expandIconPosition="end"
                             className="trip-collapse">
-                            <Panel
-                                header={
-                                    <div className=" text-base font-semibold ">Thành phố Hồ Chí Minh(2)</div>
-                                }
-                                key="1">
-                                <div className='w-full relative h-[168px]'>
-                                    <div className='w-full rounded-lg'>
-                                        <img className='w-full h-[168px] rounded-lg object-cover' src='https://ik.imagekit.io/tvlk/blog/2023/01/dinh-doc-lap-1.jpg?tr=dpr-2,w-675' />
-                                    </div>
-                                    <div className='bg-[#141716] w-full h-full absolute top-0 rounded-lg opacity-70 hover:opacity-40 cursor-pointer'>
 
-                                    </div>
-                                    <div className="cursor-pointer absolute w-[32px] h-[32px] rounded-[4px] flex items-center justify-center bg-primary top-[3.8%] right-[3.8%]">
-                                        <SaveIcon />
-                                    </div>
-                                    <div className="cursor-pointer absolute py-2 px-3 rounded-[4px] flex items-center justify-center bg-primary top-[3.8%] left-[3.8%]">
-                                        <div className='flex items-center'>
-                                            <span className='mr-1'>4.5</span>
-                                            <Star1 size="16" color="#dce775" variant="Bold" />
-                                        </div>
-                                    </div>
-                                    <div className='flex flex-col absolute bottom-[8px] left-[8px]'>
-                                        <h3 className='text-xl font-semibold text-[#FAFBFC]'>Dinh độc lập</h3>
-                                        <span className='text-[#F1F1F1] text-sm font-normal'>106 Nguyễn Du, Quận 1, Thành phố Hồ Chí Minh</span>
-                                    </div>
-                                </div>
-                            </Panel>
-                            <Panel
-                                header={<div className=" text-base font-semibold">Đồng Nai(4)</div>}
-                                key="2">
+                            {provinceArr.map((item, index) => {
+                                return <Panel
+                                    header={<div className=" text-base font-semibold">{item}(4)</div>}
+                                    key={(index + 1).toString()}>
+                                    {landMarks && landMarks.length > 0 && landMarks.map((landmark, id) => {
+                                        if (landmark.address.includes(item)) {
+                                            return <div onClick={() => navigate(`/detail/landmark/${landmark._id}`)} key={id} className='w-full relative h-[168px] mb-2'>
+                                                <div className='w-full rounded-lg'>
+                                                    <img className='w-full h-[168px] rounded-lg object-cover' src={`${serverPublic}landmarks/${landmark.images[0]}`} />
+                                                </div>
+                                                <div className='bg-[#141716] w-full h-full absolute top-0 rounded-lg opacity-70 hover:opacity-40 cursor-pointer'>
 
-                            </Panel>
-                            <Panel
-                                header={<div className=" text-base font-semibold">Bà Rịa - Vũng tàu(4)</div>}
-                                key="3">
-
-                            </Panel>
+                                                </div>
+                                                <div className="cursor-pointer absolute w-[32px] h-[32px] rounded-[4px] flex items-center justify-center bg-primary top-[3.8%] right-[3.8%]">
+                                                    <SaveIcon />
+                                                </div>
+                                                <div className="cursor-pointer absolute py-2 px-3 rounded-[4px] flex items-center justify-center bg-primary top-[3.8%] left-[3.8%]">
+                                                    <div className='flex items-center'>
+                                                        <span className='mr-1'>4.5</span>
+                                                        <Star1 size="16" color="#dce775" variant="Bold" />
+                                                    </div>
+                                                </div>
+                                                <div className='flex flex-col absolute bottom-[8px] left-[8px]'>
+                                                    <h3 className='text-xl font-semibold text-[#FAFBFC]'>{landmark?.name}</h3>
+                                                    <span className='text-[#F1F1F1] text-sm font-normal'>{landmark?.address}</span>
+                                                </div>
+                                            </div>
+                                        }
+                                    })}
+                                </Panel>
+                            })}
                         </Collapse></div>
+
                 </div>
             </div>
         </div>

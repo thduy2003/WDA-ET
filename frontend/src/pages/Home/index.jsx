@@ -17,6 +17,7 @@ import axios from 'axios';
 import { getProvince, searchProvince } from '../../api/ProvinceAPI';
 import useQueryConfig from '../../hooks/useQueryConfig';
 import { useSelector } from 'react-redux';
+import { getAllLandMarksByType } from '../../api/LandMarkAPI';
 const Home = () => {
 
     const [tabActive, setTabActive] = useState(1)
@@ -26,6 +27,7 @@ const Home = () => {
     const [provinceFrom, setProvinceFrom] = useState()
     const [provinceTo, setProvinceTo] = useState()
     const queryConfig = useQueryConfig()
+    const [listLandMarks, setListLandMarks] = useState()
     const user = useSelector((state) => state.authReducer.authData)
     const navigate = useNavigate()
     const handleChangeTab = (e) => {
@@ -79,6 +81,18 @@ const Home = () => {
         }
         fetchProvince()
     }, [])
+
+    useEffect(() => {
+        try {
+            const fetchData = async () => {
+                const result = await getAllLandMarksByType({ type: tabActive })
+                setListLandMarks(result.data)
+            }
+            fetchData()
+        } catch (error) {
+            console.log(error)
+        }
+    }, [tabActive])
     return (
         <>
             <div className='banner-home' style={{
@@ -247,10 +261,10 @@ const Home = () => {
                     <div onClick={(e) => handleChangeTab(e)} className={`mx-9 cursor-pointer pb-2 mb-[-1px] text-xl ${tabActive === 2 ? 'border-b-[1.5px] border-b-p1 font-semibold ' : 'text-third'}`}>Di tích lịch sử</div>
                     <div onClick={(e) => handleChangeTab(e)} className={`cursor-pointer pb-2 mb-[-1px] text-xl ${tabActive === 3 ? 'border-b-[1.5px] border-b-p1 font-semibold ' : 'text-third'}`}>Làng nghề truyến thống</div>
                 </div>
-                <div className='overflow-hidden'>
+                {listLandMarks && <div className='overflow-hidden'>
                     <Carousel
                         margin={32}
-                        datas={tabActive === 1 ? CardData : tabActive === 2 ? HistoryData : VillageData}
+                        datas={listLandMarks ?? []}
 
                         items={5}
                         renderItem={item => {
@@ -259,7 +273,7 @@ const Home = () => {
                             );
                         }}
                     />
-                </div>
+                </div>}
             </div>
             <Footer />
         </>

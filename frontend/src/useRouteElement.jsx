@@ -5,6 +5,7 @@ import AdminLayout from './layout/AdminLayout';
 import MainLayout from './layout/MainLayout';
 import Auth from './pages/Auth';
 import Detail from './pages/Detail';
+import DetailLandMark from './pages/DetailLandMark';
 import EditLandMark from './pages/EditLandMark';
 import EditProvince from './pages/EditProvince';
 import Forum from './pages/Forum';
@@ -58,6 +59,10 @@ const useRouteElement = () => {
             element:
                 <Detail />
 
+        },
+        {
+            path: '/detail/landmark/:id',
+            element: <DetailLandMark />
         },
         {
             path: '/profile',

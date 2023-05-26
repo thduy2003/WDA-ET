@@ -5,3 +5,7 @@ export const getTrip = async (data) => {
 
     return result.data
 }
+export const getLandMarks = async (data) => {
+    const result = await API.post('/landmark/route', data)
+    return result.data
+}

@@ -10,13 +10,14 @@ import { CardData } from './data/CardData';
 import Auth from './pages/Auth';
 import Home from './pages/Home';
 import useRouteElement from './useRouteElement';
+import Forum from './pages/Forum';
 
 const App = () => {
   const routeElements = useRouteElement()
   return (
     <div>
 
-      {routeElements}
+      <Forum></Forum>
 
     </div>
   );

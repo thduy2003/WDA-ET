@@ -20,3 +20,12 @@ export const getAllCommentsLandmark = async (id) => {
     const result = await API.get(`/comment-landmark/${id}`)
     return result.data
 }
+
+export const postCommentPost = async (data) => {
+    const result = await API.post('/comment-post/create', data)
+    return result.data
+}
+export const getAllCommentsPost = async (id) => {
+    const result = await API.get(`/comment-post/${id}`)
+    return result.data
+}

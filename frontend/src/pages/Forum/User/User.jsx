@@ -1,31 +1,44 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { followUser, unFollowUser } from '../../../actions/UserAction';
 
-const User = ({data}) => {
-    const [follow, setFollow] = useState(data.follow)
-    console.log(follow)
+const User = ({ data }) => {
+    const dispatch = useDispatch()
+    const { user } = useSelector(state => state.authReducer.authData)
+
+    const [following, setFollowing] = useState(user.follow.includes(data._id))
+
+    const handleFollow = async () => {
+
+        if (following) {
+            dispatch(unFollowUser(data._id, user))
+
+        } else {
+
+            dispatch(followUser(data._id, user))
+        }
+        setFollowing(prev => !prev)
+
+    }
     return (
         <div className="flex justify-between items-center">
             <div className="flex gap-4">
                 <div className="flex gap-4">
-                    <div className=''>
-                        <img src={data.avatar}></img>
+                    <div className='w-[30px] h-[30px] rounded-full'>
+                        <img className='w-[30px] h-[30px] object-cover rounded-full' src='https://www.seekpng.com/png/detail/245-2454602_tanni-chand-default-user-image-png.png'></img>
                     </div>
                     <div className="flex flex-col">
-                        <div className="text-[#141716] font-semibold text-[20px]">{data.userName}</div>
-                        <div className="text-[#888888] text-[12px]">{data.role}</div>
+                        <div className="text-[#141716] font-semibold text-[14px]">{data.name}</div>
+                        <div className="text-[#888888] text-[12px]">-</div>
                     </div>
                 </div>
             </div>
             {
-                follow === 'no' 
-                ? 
-                <div className= "py-2 px-3 text-[#D02F3D] text-[14px] font-semibold border border-[#D02F3D] rounded-[4px] cursor-pointer" onClick={() => setFollow("yes")}>
-                    Theo dõi
-                </div> 
-                :
-                <div className= "py-2 px-3 text-black text-[14px] bg-[#F1F1F1] rounded-[4px] font-semibold ">
-                    Đã theo dõi
-                </div> 
+
+                <div className={`py-2 px-3 ${following ? 'text-black bg-[#F1F1F1]' : 'text-[#D02F3D] border-[#D02F3D]'}   text-[14px] font-semibold border  rounded-[4px] cursor-pointer`} onClick={handleFollow}>
+                    {following ? 'Bỏ theo dõi' : 'Theo dõi'}
+                </div>
+
             }
         </div>
     );

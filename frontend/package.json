@@ -29,6 +29,7 @@
     "redux-thunk": "^2.4.2",
     "slick-carousel": "^1.8.1",
     "swiper": "^9.3.2",
+    "timeago.js": "^4.0.2",
     "uuidv4": "^6.2.13"
   },
   "devDependencies": {

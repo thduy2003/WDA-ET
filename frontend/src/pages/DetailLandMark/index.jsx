@@ -85,7 +85,7 @@ const DetailLandMark = ({ position = "Long An" }) => {
                         }}
                     ></div>
                     <div className='flex items-center z-[99999] justify-between px-[92px] py-[16px]'>
-                        <Logo color='white' />
+                        <Link to='/'> <Logo color='white' /></Link>
                         <div className='flex text-[#FAFBFC] text-base font-medium flex-row gap-x-9 items-center'>
                             <Link to='/'>Trang chủ</Link>
                             <Link to='/trip'>Đề xuất lộ trình</Link>

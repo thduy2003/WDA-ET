@@ -14,7 +14,7 @@ const Header = () => {
     const navigate = useNavigate()
     return (
         <div className='flex items-center justify-between px-[92px] py-[16px]' style={{ borderBottom: '1px solid #EAEAEA' }}>
-            <Logo />
+            <Link to='/'> <Logo /></Link>
             <div className='flex text-[#141716] text-base font-medium flex-row gap-x-9 items-center'>
                 <Link to='/'>Trang chủ</Link>
                 <Link to='/trip'>Đề xuất lộ trình</Link>

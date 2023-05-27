@@ -20,13 +20,10 @@ const Trip = () => {
     const [cityRoute, setCityRoute] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [landMarks, setLandMarks] = useState([])
-    const [isOpen, setIsOpen] = React.useState(['1']);
+
     const navigate = useNavigate()
 
 
-    const handleOpen = (e) => {
-        setIsOpen([e])
-    };
 
 
 
@@ -151,7 +148,7 @@ console.log(cityRoute);
                                 {
 
                                     <div >
-                                        <div onClick={() => handleOpen('1')} className='px-1 cursor-pointer py-1 flex flex-col items-center rounded min-w-[170px]' style={{ border: '1px solid rgb(44, 56, 130)' }}>
+                                        <div className='px-1 cursor-pointer py-1 flex flex-col items-center rounded min-w-[170px]' style={{ border: '1px solid rgb(44, 56, 130)' }}>
                                             <div className='flex items-center'>
                                                 <span className='mr-2'><Location /></span>
                                                 <p className='font-bold text-[#2C3882] text-sm '>  {a[0].label}</p>
@@ -171,7 +168,7 @@ console.log(cityRoute);
                                                         </div>
                                                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: 'max-content' }}>
                                                             <div className={`w-0.5	 bg-[#2C3882] ${x > 0 ? 'h-[48px]' : 'h-[11px]'} self-center`}></div>
-                                                            {x > 0 && <div onClick={() => handleOpen((x + 1).toString())} className='bg-[#2C3882] cursor-pointer  p-2  mx-5 text-white flex rounded-full justify-center text-center items-center w-[12px] h-[12px]'>
+                                                            {x > 0 && <div className='bg-[#2C3882] cursor-pointer  p-2  mx-5 text-white flex rounded-full justify-center text-center items-center w-[12px] h-[12px]'>
 
                                                             </div>}
                                                             <div className={` w-0.5 bg-[#2C3882] self-center ${x > 0 ? 'h-[48px]' : 'h-[21px]'}`}></div>
@@ -186,7 +183,7 @@ console.log(cityRoute);
                                         })}
 
                                         <div className=' flex w-[100%]   justify-center items-center'>
-                                            <div onClick={() => handleOpen(provinceArr.length.toString())} className='cursor-pointer px-4 py-1 flex flex-col items-center rounded' style={{ border: '1px solid rgb(44, 56, 130)' }}>
+                                            <div className='cursor-pointer px-4 py-1 flex flex-col items-center rounded' style={{ border: '1px solid rgb(44, 56, 130)' }}>
                                                 <div className='flex items-center'>
                                                     <span className='mr-2'><Location /></span>
                                                     <p className='font-bold text-[#2C3882] text-sm '>  {a[a.length - 1].label}</p>
@@ -228,12 +225,11 @@ console.log(cityRoute);
                             </div>
                         </div>
                     </div>
-                    <div className='max-h-[400px] overflow-auto overflow-y-auto overflow-x-hidden'>
+                    {provinceArr.length > 0 ? <div className='h-[500px] overflow-auto overflow-y-auto overflow-x-hidden'>
 
                         <Collapse
-                            defaultActiveKey={isOpen}
-                            activeKey={isOpen}
-                            onChange={handleOpen}
+                            defaultActiveKey={['1']}
+
                             expandIconPosition="end"
                             className="trip-collapse">
 
@@ -246,7 +242,7 @@ console.log(cityRoute);
                                         if (landmark.province_id === item.value) {
                                             return <div onClick={() => navigate(`/detail/landmark/${landmark._id}`)} key={id} className='w-full relative h-[168px] mb-2'>
                                                 <div className='w-full rounded-lg'>
-                                                    <img className='w-full h-[168px] rounded-lg object-cover' src={`${serverPublic}landmarks/${landmark.images[0]}`} />
+                                                    <img className='w-full h-[168px] rounded-lg object-cover' src={`${serverPublic}landmarks/${landmark?.images[0]}`} />
                                                 </div>
                                                 <div className='bg-[#141716] w-full h-full absolute top-0 rounded-lg opacity-70 hover:opacity-40 cursor-pointer'>
 
@@ -269,7 +265,7 @@ console.log(cityRoute);
                                     })}
                                 </Panel>
                             })}
-                        </Collapse></div>
+                        </Collapse></div> : <span>Vui lòng chọn lộ trình để xem địa điểm</span>}
 
                 </div>
             </div>

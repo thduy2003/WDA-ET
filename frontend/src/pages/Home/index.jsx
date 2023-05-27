@@ -19,6 +19,7 @@ import useQueryConfig from '../../hooks/useQueryConfig';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllLandMarksByType } from '../../api/LandMarkAPI';
 import { logOut } from '../../actions/AuthAction';
+import { serverPublic } from '../../utils';
 const Home = () => {
 
     const [tabActive, setTabActive] = useState(1)
@@ -114,10 +115,12 @@ const Home = () => {
                         {user ? <Popover content={<div className='cursor-pointer' onClick={() => {
                             dispatch(logOut())
                         }}>Đăng xuất</div>} title={null}>
-                            <div className='flex items-center'>
-                                <ProfileCircle size="20" color="#FAFBFC" variant="Bold" />
+                            <Link to={`/profile/${user.user._id}`} className='flex items-center'>
+                                <div className='w-5 h-5 rounded-full'>
+                                    <img className='w-5 h-5 rounded-full' src={`${serverPublic}profile/${user?.user?.avatar}`} />
+                                </div>
                                 <div className='ml-1'>{user.user.name}</div>
-                            </div>
+                            </Link>
                         </Popover> : <Link to='/auth'><Button size='small' type='outline-white' iconPosition='left' iconLeft={<ProfileCircle size="20" color="#FAFBFC" variant="Bold" />}>Đăng kí</Button></Link>}
                     </div>
                 </div>

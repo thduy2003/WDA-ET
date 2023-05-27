@@ -18,14 +18,17 @@ import { Archive, Layer, Airplane } from 'iconsax-react';
 import Gallery from './Gallery/Gallery';
 import SliderImage from './Gallery/SliderImage';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getLandmarkById } from '../../api/LandMarkAPI';
 import { serverPublic } from '../../utils';
+import { Popover } from 'antd';
+import { logOut } from '../../actions/AuthAction';
 
 const DetailLandMark = ({ position = "Long An" }) => {
     let [zoom, setZoom] = useState('false');
     const [tabActive, setTabActive] = useState(1)
     const { id } = useParams()
+    const dispatch = useDispatch()
     const [detail, setDetail] = useState()
     const user = useSelector((state) => state.authReducer.authData)
     const handleChangeTab = (e) => {
@@ -87,10 +90,16 @@ const DetailLandMark = ({ position = "Long An" }) => {
                             <Link to='/'>Trang chủ</Link>
                             <Link to='/trip'>Đề xuất lộ trình</Link>
                             <Link to='/forum'>Diễn đàn</Link>
-                            {user ? <div className='flex items-center'>
-                                <ProfileCircle size="20" color="#FAFBFC" variant="Bold" />
-                                <div className='ml-1'>{user.user.name}</div>
-                            </div> : <Link to='/auth'><Button size='small' type='outline-white' iconPosition='left' iconLeft={<ProfileCircle size="20" color="#FAFBFC" variant="Bold" />}>Đăng kí</Button></Link>}
+                            {user ? <Popover content={<div className='cursor-pointer' onClick={() => {
+                                dispatch(logOut())
+                            }}>Đăng xuất</div>} title={null}>
+                                <Link to={`/profile/${user.user._id}`} className='flex items-center'>
+                                    <div className='w-5 h-5 rounded-full'>
+                                        <img className='w-5 h-5 rounded-full' src={`${serverPublic}profile/${user?.user?.avatar}`} />
+                                    </div>
+                                    <div className='ml-1'>{user.user.name}</div>
+                                </Link>
+                            </Popover> : <Link to='/auth'><Button size='small' type='outline-white' iconPosition='left' iconLeft={<ProfileCircle size="20" color="#FAFBFC" variant="Bold" />}>Đăng kí</Button></Link>}
                         </div>
                     </div>
                     <div className='mx-auto text-[#FAFBFC] my-[115px] w-[780px] text-[57px] leading-[64px] font-semibold text-center'>

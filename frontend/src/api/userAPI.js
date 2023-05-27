@@ -16,3 +16,8 @@ export const getAllUsers = async () => {
     const result = await API.get('/profile/getAll')
     return result.data
 }
+export const getUser = async (id) => {
+    const result = await API.get(`/profile/${id}`)
+    return result.data
+}
+export const updateUserApi = (id, formData) => API.put(`/profile/${id}`, formData)

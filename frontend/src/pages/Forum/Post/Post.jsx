@@ -16,6 +16,7 @@ const Post = ({ data, showComment = f => f, getPostId = f => f }) => {
         setLiked(data?.likes?.includes(user._id))
         setLikes(data?.likes?.length)
     }, [data])
+
     const handleLike = async () => {
 
         try {

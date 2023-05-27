@@ -1,8 +1,19 @@
 import { MessageEdit } from 'iconsax-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { getUser } from '../../api/userAPI';
 import Button from '../../components/Button';
+import { serverPublic } from '../../utils';
+import ProfileModal from './ProfileModal';
 
 const Profile = () => {
+    const [modalOpened, setModalOpened] = React.useState(false)
+    const dispatch = useDispatch()
+    const params = useParams()
+    const profileUserId = params.id
+    const [profileUser, setProfileUser] = useState({})
+    const { user } = useSelector((state) => state.authReducer.authData)
     const [tabActive, setTabActive] = useState(1)
     const handleChangeTab = (e) => {
         if (e.target.innerText === 'Trang cá nhân') {
@@ -15,6 +26,19 @@ const Profile = () => {
             setTabActive(3)
         }
     }
+    useEffect(() => {
+        const fetchProfileUser = async () => {
+            if (profileUserId === user._id) {
+                setProfileUser(user)
+            } else {
+                const profileUser = await getUser(profileUserId)
+                setProfileUser(profileUser)
+            }
+        }
+        fetchProfileUser()
+    }, [user])
+
+    if (!profileUser) return <span>No data</span>
     return (
         <div className='px-[92px]'>
             <div className='w-full h-[200px] mb-2'>
@@ -23,14 +47,15 @@ const Profile = () => {
             <div className='flex justify-between items-center mb-5'>
                 <div className='flex items-center'>
                     <div className='w-[60px h-[60px] rounded-full mr-6'>
-                        <img className='w-[60px h-[60px] rounded-full ' src='/images/userDefault.png' />
+                        <img className='w-[60px h-[60px] rounded-full ' src={`${serverPublic}profile/${profileUser?.avatar}`} />
                     </div>
                     <div className='text-[#141716] text-2xl font-semibold'>
-                        Hồ Hoàng Yến
+                        {profileUser?.name}
                     </div>
                 </div>
-                <div>
-                    <Button iconPosition='left' size='small' type='primary' iconLeft={<MessageEdit size="20" color="#FAFBFC" variant="Bold" />}>Chỉnh sửa thông tin cá nhân</Button>
+                <div className='profile_user'>
+                    <ProfileModal openModal={modalOpened} setOpenModal={setModalOpened} data={user} />
+                    <Button onClick={() => setModalOpened(true)} iconPosition='left' size='small' type='primary' iconLeft={<MessageEdit size="20" color="#FAFBFC" variant="Bold" />}>Chỉnh sửa thông tin cá nhân</Button>
                 </div>
             </div>
             <div className='w-fit flex mt-[24px] mb-6' style={{ borderBottom: '1.5px solid #C2C2C2' }}>
@@ -44,19 +69,19 @@ const Profile = () => {
                         <h3 className='text-[#141716] text-lg font-semibold'>Giới thiệu</h3>
                         <div className='flex flex-col gap-y-2'>
                             <div className='flex items-center'>
-                                <p>Ngày sinh: 14/08/2003</p>
+                                <p>Ngày sinh: {profileUser?.dob}</p>
                             </div>
                             <div className='flex items-center'>
-                                <p>Giới tính: Nữ</p>
+                                <p>Giới tính: {profileUser?.gender}</p>
                             </div>
                             <div className='flex items-center'>
                                 <p>Nơi sinh sống: Thành phố Hồ Chí Minh</p>
                             </div>
                             <div className='flex items-center'>
-                                <p>Liên hệ: 028382232652</p>
+                                <p>Liên hệ: {profileUser?.contact}</p>
                             </div>
                             <div className='flex items-center'>
-                                <p>Người theo dõi: 109 bạn</p>
+                                <p>Người theo dõi: {profileUser?.follower?.length} bạn</p>
                             </div>
                         </div>
                     </div>

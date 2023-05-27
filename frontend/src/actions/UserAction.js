@@ -1,4 +1,4 @@
-import { postFollowUser, postUnFollowUser } from '../api/userAPI'
+import { postFollowUser, postUnFollowUser, updateUserApi } from '../api/userAPI'
 
 export const followUser = (id, data) => async (dispatch) => {
 
@@ -12,4 +12,14 @@ export const unFollowUser = (id, data) => async (dispatch) => {
     dispatch({ type: "UNFOLLOW_USER", data: id })
     postUnFollowUser(id, data)
 
+}
+export const updateUser = (id, formData) => async (dispatch) => {
+    dispatch({ type: "UPDATING_START" })
+    try {
+        const { data } = await updateUserApi(id, formData)
+        dispatch({ type: "UPDATING_SUCCESS", data: data })
+    } catch (error) {
+        dispatch({ type: "UPDATING_FAIL" })
+        console.log(error)
+    }
 }

@@ -107,3 +107,6 @@ body {
   object-fit: contain;
   margin-bottom: 10px;
 }
+.profile_user .ant-btn {
+  display: none !important;
+}

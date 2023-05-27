@@ -63,7 +63,7 @@ const useRouteElement = () => {
             element: <DetailLandMark />
         },
         {
-            path: '/profile',
+            path: '/profile/:id',
             element: <MainLayout>
                 <Profile />
             </MainLayout>

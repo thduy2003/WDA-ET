@@ -12,11 +12,11 @@ const SliderImage = ({ onChangeZoom = f => f, imagesData }) => {
             <div className="flex flex-col items-center gap-5">
                 <div className="text-[20px] leading-[28px] text-white font-semibold mb-4"> Các hình ảnh liên quan </div>
                 <div className="w-[900px] h-[540px]">
-                    <img className="w-full h-full object-cover" src={`http://127.0.0.1:6789/public/images/provinces/${imagesData[index]}`}></img>
+                    <img className="w-full h-full object-cover" src={`https://vie-wander-be.herokuapp.com/public/images/provinces/${imagesData[index]}`}></img>
                 </div>
                 <div className="flex gap-3">
                     {imagesData.map((n, i) => <div key={i} onClick={() => setIndex(i)} className={`cursor-pointer ${i == index ? 'opacity-100' : 'opacity-30'}`}>
-                        <img className="w-[100px] h-[80px]" src={`http://127.0.0.1:6789/public/images/provinces/${imagesData[i]}`}></img>
+                        <img className="w-[100px] h-[80px]" src={`https://vie-wander-be.herokuapp.com/public/images/provinces/${imagesData[i]}`}></img>
                     </div>)}
                 </div>
             </div>

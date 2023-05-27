@@ -7,7 +7,7 @@ import { GeocoderAutocomplete } from '@geoapify/geocoder-autocomplete';
 import { postProvince } from '../../api/ProvinceAPI';
 import axios from 'axios';
 import { getProvince } from '../../api/ProvinceAPI';
-import { postLandmark } from '../../api/LandMarkAPI';
+import { postLandmark } from '../../api/LandmarkAPI';
 const geoapify = "2e8f62d864414a2780fdcbcf30589685";
 const EditLandMark = () => {
     const [form] = Form.useForm()
@@ -99,11 +99,11 @@ const EditLandMark = () => {
                         </Form.Item>
                         <Form.Item className='w-full' label="Tỉnh thành" name='province'>
                             <Select placeholder='Chọn tỉnh thành' className='select-admin'>
-                            {provinces.map(province => (
-                            <Option key={province.value} value={province.value}>
-                                {province.label}
-                            </Option>
-                        ))}
+                                {provinces.map(province => (
+                                    <Option key={province.value} value={province.value}>
+                                        {province.label}
+                                    </Option>
+                                ))}
                             </Select>
                         </Form.Item>
                     </div>
@@ -129,13 +129,13 @@ const EditLandMark = () => {
                     <div className='flex w-full gap-x-4'>
 
                         <div className='flex w-full items-center gap-x-4'>
-                            <Form.Item className='w-full' label="Giờ mở cửa" name='open_time'> 
-                                <Input placeholder="Nhập giờ mở cửa" /> 
+                            <Form.Item className='w-full' label="Giờ mở cửa" name='open_time'>
+                                <Input placeholder="Nhập giờ mở cửa" />
                             </Form.Item>
 
                             <span>Đến</span>
-                            <Form.Item className='w-full' label="Giờ đóng cửa" name='close_time'> 
-                                <Input placeholder="Nhập đóng cửa" /> 
+                            <Form.Item className='w-full' label="Giờ đóng cửa" name='close_time'>
+                                <Input placeholder="Nhập đóng cửa" />
                             </Form.Item>
                         </div>
 
@@ -146,13 +146,13 @@ const EditLandMark = () => {
                     <div className='flex w-full gap-x-4'>
 
                         <div className='flex w-full items-center gap-x-4'>
-                            <Form.Item className='w-full' label="Phí vào cổng thấp nhất" name='price_min'> 
-                                <Input placeholder="Nhập phí thấp nhất" /> 
+                            <Form.Item className='w-full' label="Phí vào cổng thấp nhất" name='price_min'>
+                                <Input placeholder="Nhập phí thấp nhất" />
                             </Form.Item>
 
                             <span>Đến</span>
-                            <Form.Item className='w-full' label="Phí vào cổng cao nhất" name='price_max'> 
-                                <Input placeholder="Nhập phí cao nhất" /> 
+                            <Form.Item className='w-full' label="Phí vào cổng cao nhất" name='price_max'>
+                                <Input placeholder="Nhập phí cao nhất" />
                             </Form.Item>
                         </div>
 

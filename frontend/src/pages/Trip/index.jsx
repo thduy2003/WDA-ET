@@ -118,18 +118,19 @@ const Trip = () => {
         }
     }, [queryConfig.start, queryConfig.end])
 
-console.log(cityRoute);
+
     const provinceArr = [].concat(...cityRoute).map((obj) => obj.label)
     const provinceObjArr = [].concat(...cityRoute).map((obj) => {
-    
-        return {value: obj._id, label: obj.label}})
+
+        return { value: obj._id, label: obj.label }
+    })
     useEffect(() => {
 
         try {
             const fetchData = async () => {
                 const result = await getLandMarks({ provinceArr, typeId: tabActive })
                 setLandMarks(result.data)
-     
+
             }
             fetchData()
         } catch (error) {
@@ -239,7 +240,9 @@ console.log(cityRoute);
                                     header={<div className=" text-base font-semibold">{item.label}(4)</div>}
                                     key={(index + 1).toString()}>
                                     {landMarks && landMarks.length > 0 && landMarks.map((landmark, id) => {
+
                                         if (landmark.province_id === item.value) {
+
                                             return <div onClick={() => navigate(`/detail/landmark/${landmark._id}`)} key={id} className='w-full relative h-[168px] mb-2'>
                                                 <div className='w-full rounded-lg'>
                                                     <img className='w-full h-[168px] rounded-lg object-cover' src={`${serverPublic}landmarks/${landmark?.images[0]}`} />

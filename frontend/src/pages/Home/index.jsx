@@ -137,7 +137,7 @@ const Home = () => {
                                     <div>
                                         <h3 className='mb-4 text-[#141716] text-xl font-semibold'>Tỉnh</h3>
                                         <Link to={`/detail/${dataProvince && dataProvince[0]?._id}`} className='relative w-full'>
-                                            <img className='w-full h-[102px] object-cover rounded-lg' src={`http://127.0.0.1:6789/public/images/provinces/${dataProvince && dataProvince[0]?.images[0]}`} />
+                                            <img className='w-full h-[102px] object-cover rounded-lg' src={`https://vie-wander-be.herokuapp.com/public/images/provinces/${dataProvince && dataProvince[0]?.images[0]}`} />
                                             <div className='bg-[#141716] w-full h-full absolute top-0 rounded-lg opacity-50'>
 
                                             </div>

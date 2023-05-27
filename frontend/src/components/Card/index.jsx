@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 
 
@@ -7,11 +7,25 @@ import { Popover } from 'antd';
 import SaveIcon from '../Icons/SaveIcon';
 import { Link } from 'react-router-dom';
 import { serverPublic } from '../../utils';
+import { ArchiveTick } from 'iconsax-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { likeLandmark, unLikeLandmark } from '../../actions/UserAction';
 
 const Card = props => {
     const { data, widthImage, heightImage } = props;
+    const dispatch = useDispatch()
+    const { user } = useSelector(state => state.authReducer.authData)
+    const [liked, setLiked] = useState(user.favorite_landmark.includes(data._id))
+    const handleClick = () => {
+        if (liked) {
+            dispatch(unLikeLandmark(data?._id, user))
 
+        } else {
 
+            dispatch(likeLandmark(data?._id, user))
+        }
+        setLiked(prev => !prev)
+    }
     const classNameImage = `rounded-t-lg w-full max-w-[${widthImage}px] h-[${heightImage}px] flex-shrink-0 object-cover`;
     const classCard = `min-w-[${widthImage}px] flex flex-col  bg-white border border-gray-200 rounded-xl relative hover:shadow-lg hover:shadow-gray-100`;
 
@@ -20,8 +34,8 @@ const Card = props => {
         <div
             className={classCard}
             style={{ minWidth: `${widthImage}px`, maxWidth: `${widthImage}px`, boxShadow: '0px 2px 8px 2px rgba(0, 0, 0, 0.04)' }}>
-            <div className="cursor-pointer absolute w-[36px] h-[36px] rounded-[4px] flex items-center justify-center bg-primary top-[3.8%] right-[3.8%]">
-                <SaveIcon />
+            <div onClick={handleClick} className="cursor-pointer absolute w-[36px] h-[36px] rounded-[4px] flex items-center justify-center bg-primary top-[3.8%] right-[3.8%]">
+                {liked ? <ArchiveTick size="20" color="#D02F3D" variant="Bold" /> : <SaveIcon />}
             </div>
 
             <Link

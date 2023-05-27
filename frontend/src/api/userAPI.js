@@ -21,3 +21,10 @@ export const getUser = async (id) => {
     return result.data
 }
 export const updateUserApi = (id, formData) => API.put(`/profile/${id}`, formData)
+
+export const postLikeLandmark = async (id, data) => {
+    API.put(`/profile/favourite/${id}`, data)
+}
+export const postUnLikeLandmark = async (id, data) => {
+    API.put(`/profile/favourite/${id}`, data)
+}

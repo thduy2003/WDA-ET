@@ -23,3 +23,7 @@ export const getAllLandMarksByType = async (data) => {
     const result = await API.get('landmark/getAll', { params: data })
     return result.data
 }
+export const getAllLikedLandMarks = async (data) => {
+    const result = await API.post('landmark/favourite', data)
+    return result.data
+}

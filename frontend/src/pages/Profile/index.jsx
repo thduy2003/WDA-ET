@@ -2,8 +2,10 @@ import { MessageEdit } from 'iconsax-react';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { getAllLikedLandMarks } from '../../api/LandMarkAPI';
 import { getUser } from '../../api/userAPI';
 import Button from '../../components/Button';
+import Card from '../../components/Card';
 import { serverPublic } from '../../utils';
 import ProfileModal from './ProfileModal';
 
@@ -13,6 +15,7 @@ const Profile = () => {
     const params = useParams()
     const profileUserId = params.id
     const [profileUser, setProfileUser] = useState({})
+    const [likedLandmark, setLikedLandMark] = useState([])
     const { user } = useSelector((state) => state.authReducer.authData)
     const [tabActive, setTabActive] = useState(1)
     const handleChangeTab = (e) => {
@@ -37,7 +40,13 @@ const Profile = () => {
         }
         fetchProfileUser()
     }, [user])
-
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await getAllLikedLandMarks({ landmarkIdArr: user?.favorite_landmark })
+            setLikedLandMark(result.data)
+        }
+        fetchData()
+    }, [])
     if (!profileUser) return <span>No data</span>
     return (
         <div className='px-[92px]'>
@@ -63,7 +72,7 @@ const Profile = () => {
                 <div onClick={(e) => handleChangeTab(e)} className={`mx-9 cursor-pointer pb-2 mb-[-1px] text-xl ${tabActive === 2 ? 'border-b-[1.5px] border-b-p1 font-semibold ' : 'text-third'}`}>Bạn bè</div>
                 <div onClick={(e) => handleChangeTab(e)} className={`cursor-pointer pb-2 mb-[-1px] text-xl ${tabActive === 3 ? 'border-b-[1.5px] border-b-p1 font-semibold ' : 'text-third'}`}>Địa điểm đã lưu</div>
             </div>
-            <div className='grid grid-cols-12 gap-x-3'>
+            {tabActive === 1 && <div className='grid grid-cols-12 gap-x-3'>
                 <div className='col-span-4'>
                     <div className='p-5 bg-[#FAFBFC] rounded-lg mb-4' style={{ boxShadow: '0px 2px 8px 2px rgba(0, 0, 0, 0.08)' }}>
                         <h3 className='text-[#141716] text-lg font-semibold'>Giới thiệu</h3>
@@ -92,7 +101,12 @@ const Profile = () => {
                 <div className='col-span-3'>
 
                 </div>
-            </div>
+            </div>}
+            {
+                tabActive === 3 && <div className='flex flex-wrap mt-3 mb-3'>
+                    {likedLandmark.map((data, index) => <Card data={data} widthImage={250} heightImage={200} key={index} />)}
+                </div>
+            }
         </div>
     );
 };

@@ -24,6 +24,11 @@ const authReducer = (state = {
 
         case "UNFOLLOW_USER":
             return { ...state, authData: { ...state.authData, user: { ...state.authData.user, follow: [...state.authData.user.follow.filter((personId) => personId !== action.data)] } } }
+        case "LIKE_LANDMARK":
+            return { ...state, authData: { ...state.authData, user: { ...state.authData.user, favorite_landmark: [...state.authData.user.favorite_landmark, action.data], } } }
+
+        case "UNLIKE_LANDMARK":
+            return { ...state, authData: { ...state.authData, user: { ...state.authData.user, favorite_landmark: [...state.authData.user.favorite_landmark.filter((landMarkId) => landMarkId !== action.data)] } } }
         case "LOG_OUT":
             localStorage.clear()
             return { ...state, authData: null, loading: false, error: false, updateLoading: false }

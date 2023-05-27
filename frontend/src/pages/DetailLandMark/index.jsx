@@ -23,6 +23,7 @@ import { getLandmarkById } from '../../api/LandMarkAPI';
 import { serverPublic } from '../../utils';
 import { Popover } from 'antd';
 import { logOut } from '../../actions/AuthAction';
+import Footer from '../../components/Footer';
 
 const DetailLandMark = ({ position = "Long An" }) => {
     let [zoom, setZoom] = useState('false');
@@ -197,6 +198,7 @@ const DetailLandMark = ({ position = "Long An" }) => {
                             : <SliderImage imagesData={detail?.images ?? []} onChangeZoom={() => setZoom('false')}></SliderImage>
                     }
                 </div>
+                <Footer />
             </>
         );
 };

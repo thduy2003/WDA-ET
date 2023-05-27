@@ -12,6 +12,24 @@ const CommentList = ({ choosedPost }) => {
     const onChangeInput = (e) => {
         setInputComment(e.target.value)
     }
+    const handlePostComment = async () => {
+        try {
+            const result = await postCommentPost({ post_id: choosedPost, author_id: user._id, content: inputComment })
+            setInputComment('')
+            if (result) {
+
+                const newComment = result.data
+
+                const newDataComment = [...dataComment, newComment]
+
+                setDataComment(newDataComment)
+                alert('Bình luận thành công')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
         try {
             const fetchComment = async () => {
@@ -48,20 +66,8 @@ const CommentList = ({ choosedPost }) => {
                         <ProfileCircle size={"28"} variant='Bold' />
                     </div>
                     <div className="flex px-4 py-6 bg-[#EAEAEA] rounded-[8px] w-full items-center">
-                        <input onChange={onChangeInput} type="text" placeholder="Viết bình luận vào đây" className="bg-[#EAEAEA] outline-none w-full"></input>
-                        <div className="cursor-pointer" onClick={async () => {
-                            try {
-                                const result = await postCommentPost({ post_id: choosedPost, author_id: user.user._id, content: inputComment })
-                                setInputComment('')
-                                if (result) {
-
-                                    alert('Bình luận thành công')
-
-                                }
-                            } catch (error) {
-                                console.log(error)
-                            }
-                        }}>
+                        <input value={inputComment} onChange={onChangeInput} type="text" placeholder="Viết bình luận vào đây" className="bg-[#EAEAEA] outline-none w-full"></input>
+                        <div className="cursor-pointer" onClick={handlePostComment}>
                             <Send2 size="19" color="#888888" variant='Bold'></Send2>
                         </div>
                     </div>

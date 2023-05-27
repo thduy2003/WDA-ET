@@ -1,7 +1,9 @@
 import React from 'react';
 import { ProfileCircle } from 'iconsax-react'
 import { Star1 } from 'iconsax-react'
+import { useSelector } from 'react-redux';
 const CommentItem = ({ data }) => {
+    const user = useSelector((state) => state.authReducer.authData)
     return (
         <div className="flex gap-3 px-2 py-4">
             <div className="">
@@ -9,7 +11,7 @@ const CommentItem = ({ data }) => {
             </div>
             <div className="w-full px-6 py-4 flex justify-between rounded-xl border-[1px] border-[#EAEAEA] border-solid bg-white">
                 <div className="">
-                    <div className="text-[20px] leading-[28px] text-[#141716] font-semibold mb-2 ">{data?.name}</div>
+                    <div className="text-[20px] leading-[28px] text-[#141716] font-semibold mb-2 ">{data?.name || user?.user?.name}</div>
                     <div className="mb-4">{data.content}</div>
                     <div className='flex gap-1'>
                         {

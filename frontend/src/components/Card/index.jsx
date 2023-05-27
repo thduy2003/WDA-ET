@@ -18,14 +18,18 @@ const Card = props => {
 
     const [liked, setLiked] = useState(user?.favorite_landmark?.includes(data?._id) ?? false)
     const handleClick = () => {
-        if (liked) {
-            dispatch(unLikeLandmark(data?._id, user))
-
+        if (!user) {
+            alert('Bạn cần phải đăng nhập trước khi dùng chức năng này')
         } else {
+            if (liked) {
+                dispatch(unLikeLandmark(data?._id, user))
 
-            dispatch(likeLandmark(data?._id, user))
+            } else {
+
+                dispatch(likeLandmark(data?._id, user))
+            }
+            setLiked(prev => !prev)
         }
-        setLiked(prev => !prev)
     }
     const classNameImage = `rounded-t-lg w-full max-w-[${widthImage}px] h-[${heightImage}px] flex-shrink-0 object-cover`;
     const classCard = `min-w-[${widthImage}px] flex flex-col  bg-white border border-gray-200 rounded-xl relative hover:shadow-lg hover:shadow-gray-100`;

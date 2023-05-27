@@ -5,6 +5,7 @@ import { Global, ArrowDown2, Happyemoji, Gallery, Send2, Lock1 } from 'iconsax-r
 import { useDispatch, useSelector } from 'react-redux';
 
 import { uploadPost } from '../../../actions/PostAction';
+import { serverPublic } from '../../../utils';
 const PostForm = ({ setModal }) => {
     const [image, setImage] = React.useState(null);
 
@@ -62,12 +63,8 @@ const PostForm = ({ setModal }) => {
                 <div>
                     <div className="flex justify-between mb-4">
                         <div className="flex gap-3 items-center">
-                            <ProfileCircle
-                                size="48"
-                                color="black"
-                                variant="Bold"
-                            />
-                            <p className="text-[#141716] font-semibold text-[20px]">Phan Duy Trọng</p>
+                            <img className='w-[48px] h-[48px] rounded-full' src={`${serverPublic}profile/${user?.avatar}`} alt="" />
+                            <p className="text-[#141716] font-semibold text-[20px]">{user.name}</p>
                         </div>
                         <div className="flex w-[143px] h-[36px]  justify-between items-center px-2 py-3 border border-solid border-[#D02F3D] rounded-[4px] cursor-pointer relative" onClick={() => setChangePri("on")} >
                             {pri === "Công khai"

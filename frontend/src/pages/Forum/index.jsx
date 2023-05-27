@@ -7,11 +7,15 @@ import PostForm from './Post/PostForm';
 import CommentList from './Post/CommentList';
 import { getAllUsers } from '../../api/userAPI';
 import { useSelector } from 'react-redux';
+import { getAllLandMarksByType } from '../../api/LandMarkAPI';
+
+import { serverPublic } from '../../utils';
 const Forum = () => {
 
     const [post, setPost] = useState(false)
     const [comment, setComment] = useState(false)
     const [allUsers, setAllUsers] = useState([])
+    const [listLandMarks, setListLandMarks] = useState([])
     const { user } = useSelector((state) => state.authReducer.authData)
     const [choosedPost, setChoosedPost] = useState()
     useEffect(() => {
@@ -27,6 +31,17 @@ const Forum = () => {
 
     }, [])
     const listUsers = allUsers.filter((i) => i._id !== user._id)
+    useEffect(() => {
+        try {
+            const fetchData = async () => {
+                const result = await getAllLandMarksByType({ type: 1 })
+                setListLandMarks(result?.data?.slice(0, 3))
+            }
+            fetchData()
+        } catch (error) {
+            console.log(error)
+        }
+    }, [])
 
     return (
         <div className="relative">
@@ -68,9 +83,10 @@ const Forum = () => {
                             <p className="mb-6 text-[#141716] font-semibold text-[28px]"> Địa điểm của tuần </p>
 
                             <div className="flex flex-col gap-4">
-                                <TopWeek img={"/images/hangsondoong.png"} top="1" name="Hang Sơn Đòong" province={"Quảng Bình"} view={"6.4K"} ></TopWeek>
-                                <TopWeek img={"/images/dinhdoclap.png"} top="2" name="Dinh Độc Lập" province={"Thành Phố Hồ Chí Minh"} view={"4.4K"} ></TopWeek>
-                                <TopWeek img={"/images/tanlap.png"} top="3" name="Làng nổi Tân Lập" province={"Long An"} view={"2.4K"} ></TopWeek>
+                                {listLandMarks?.length > 0 && listLandMarks?.map((item, index) => {
+                                    return <TopWeek key={index} img={`${serverPublic}landmarks/${item.images[0]}`} top={(index + 1).toString()} name={item.name} province={item.address} view={"6.4K"} ></TopWeek>
+                                })}
+
                             </div>
                         </div>
                     </div>

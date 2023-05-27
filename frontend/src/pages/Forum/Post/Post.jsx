@@ -37,7 +37,7 @@ const Post = ({ data, showComment = f => f, getPostId = f => f }) => {
                         <img className='w-[50px] h-[50px] rounded-full' src={`https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/User_icon-cp.svg/1200px-User_icon-cp.svg.png`} />
                     </div>
                     <div className="flex flex-col gap-0">
-                        <div className="text-[#141716] font-semibold text-[20px] mb-2"> {data.name}</div>
+                        <div className="text-[#141716] font-semibold text-[20px] mb-2"> {data?.name ?? user.name}</div>
                         <div className="text-[#888888] text-[12px] leading-[0]"> {format(data.date_post)}</div>
                     </div>
                 </div>

@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { getAllCommentsPost, postCommentPost } from '../../../api/commentAPI';
 const CommentList = ({ choosedPost }) => {
     const [inputComment, setInputComment] = useState()
-    const user = useSelector((state) => state.authReducer.authData)
+    const { user } = useSelector((state) => state.authReducer.authData)
 
     const [dataComment, setDataComment] = useState([])
     const onChangeInput = (e) => {

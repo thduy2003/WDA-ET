@@ -7,7 +7,7 @@ import { format } from 'timeago.js'
 const Post = ({ data, showComment = f => f, getPostId = f => f }) => {
 
     const [more, setMore] = useState(false)
-    const user = useSelector((state) => state.authReducer.authData)
+    const { user } = useSelector((state) => state.authReducer.authData)
 
     const [liked, setLiked] = useState(data?.likes?.includes(user._id) ?? false)
 

@@ -7,7 +7,7 @@ import Post from './Post';
 const PostList = ({ showComment = f => f, getPostId = f => f }) => {
     const dispatch = useDispatch()
     const params = useParams()
-    const user = useSelector((state) => state.authReducer.authData)
+    const { user } = useSelector((state) => state.authReducer.authData)
     let { posts, loading } = useSelector((state) => state.postReducer)
     useEffect(() => {
         const fetchPosts = async () => {

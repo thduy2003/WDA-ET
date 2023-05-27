@@ -12,7 +12,7 @@ const Forum = () => {
     const [post, setPost] = useState(false)
     const [comment, setComment] = useState(false)
     const [allUsers, setAllUsers] = useState([])
-    const user = useSelector(state => state.authReducer.authData)
+    const { user } = useSelector((state) => state.authReducer.authData)
     const [choosedPost, setChoosedPost] = useState()
     useEffect(() => {
         try {

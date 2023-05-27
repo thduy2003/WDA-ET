@@ -20,13 +20,13 @@ const Trip = () => {
     const [cityRoute, setCityRoute] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [landMarks, setLandMarks] = useState([])
+    const [isOpen, setIsOpen] = React.useState(['1']);
     const navigate = useNavigate()
 
 
-
-
-
-
+    const handleOpen = (e) => {
+        setIsOpen([e])
+    };
 
 
 
@@ -137,7 +137,7 @@ const Trip = () => {
             console.log(error)
         }
     }, [cityRoute, tabActive])
-    console.log(landMarks)
+
     return (
         <div className='mt-[48px] mb-[56px] w-full ' style={{ backgroundImage: 'url(/images/map.png)' }}>
             <div className='flex gap-x-[92px]'>
@@ -149,14 +149,17 @@ const Trip = () => {
                                 {
 
                                     <div >
-                                        <div className='px-1 py-1 flex flex-col items-center rounded min-w-[170px]' style={{ border: '1px solid rgb(44, 56, 130)' }}>
+                                        <div onClick={() => handleOpen('1')} className='px-1 cursor-pointer py-1 flex flex-col items-center rounded min-w-[170px]' style={{ border: '1px solid rgb(44, 56, 130)' }}>
                                             <div className='flex items-center'>
                                                 <span className='mr-2'><Location /></span>
                                                 <p className='font-bold text-[#2C3882] text-sm '>  {a[0].label}</p>
                                             </div>
                                         </div>
                                         {a.map((b, x) => {
+
+
                                             if (x > 0 && x < a.length - 1)
+
                                                 return <div key={x} className=' flex w-[100%]   justify-center items-center'>
                                                     <div className='w-full flex justify-between items-center'>
                                                         <div className='flex flex-col lg:flex-row  justify-end items-stretch lg:items-center flex-1'>
@@ -165,11 +168,11 @@ const Trip = () => {
                                                             </div>
                                                         </div>
                                                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: 'max-content' }}>
-                                                            <div className={`w-0.5	  bg-[#2C3882] ${x > 0 ? 'h-[48px]' : 'h-[11px]'} self-center`}></div>
-                                                            {x > 0 && <div className='bg-[#2C3882] p-2  mx-5 text-white flex rounded-full justify-center text-center items-center w-[12px] h-[12px]'>
+                                                            <div className={`w-0.5	 bg-[#2C3882] ${x > 0 ? 'h-[48px]' : 'h-[11px]'} self-center`}></div>
+                                                            {x > 0 && <div onClick={() => handleOpen((x + 1).toString())} className='bg-[#2C3882] cursor-pointer  p-2  mx-5 text-white flex rounded-full justify-center text-center items-center w-[12px] h-[12px]'>
 
                                                             </div>}
-                                                            <div className={`w-0.5 bg-[#2C3882] self-center ${x > 0 ? 'h-[48px]' : 'h-[21px]'}`}></div>
+                                                            <div className={` w-0.5 bg-[#2C3882] self-center ${x > 0 ? 'h-[48px]' : 'h-[21px]'}`}></div>
                                                         </div>
                                                         <div className='flex flex-col lg:flex-row  justify-start items-stretch lg:items-center flex-1'>
                                                             <div className='flex items-center'>
@@ -181,7 +184,7 @@ const Trip = () => {
                                         })}
 
                                         <div className=' flex w-[100%]   justify-center items-center'>
-                                            <div className='px-4 py-1 flex flex-col items-center rounded' style={{ border: '1px solid rgb(44, 56, 130)' }}>
+                                            <div onClick={() => handleOpen(provinceArr.length.toString())} className='cursor-pointer px-4 py-1 flex flex-col items-center rounded' style={{ border: '1px solid rgb(44, 56, 130)' }}>
                                                 <div className='flex items-center'>
                                                     <span className='mr-2'><Location /></span>
                                                     <p className='font-bold text-[#2C3882] text-sm '>  {a[a.length - 1].label}</p>
@@ -226,11 +229,14 @@ const Trip = () => {
                     <div className='max-h-[400px] overflow-auto overflow-y-auto overflow-x-hidden'>
 
                         <Collapse
-                            defaultActiveKey={['1']}
+                            defaultActiveKey={isOpen}
+                            activeKey={isOpen}
+                            onChange={handleOpen}
                             expandIconPosition="end"
                             className="trip-collapse">
 
                             {provinceArr.map((item, index) => {
+
                                 return <Panel
                                     header={<div className=" text-base font-semibold">{item}(4)</div>}
                                     key={(index + 1).toString()}>

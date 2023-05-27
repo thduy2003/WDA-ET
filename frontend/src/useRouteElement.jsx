@@ -50,10 +50,7 @@ const useRouteElement = () => {
         },
         {
             path: '/forum',
-            element: user ? (<MainLayout>
-                <Forum />
-            </MainLayout>) : <Navigate to='../auth' />,
-
+            element: user ? <MainLayout> <Forum /> </MainLayout> : <Navigate to='../auth' />
         },
         {
             path: '/detail/:id',
@@ -73,7 +70,7 @@ const useRouteElement = () => {
         },
         {
             path: 'auth',
-            element: user ? <Navigate to='/' /> : <Auth />
+            element: user ? <Navigate to='../' /> : <Auth />
         },
         {
             path: 'admin',

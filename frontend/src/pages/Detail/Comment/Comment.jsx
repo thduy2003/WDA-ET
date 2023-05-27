@@ -71,6 +71,7 @@ const Comment = ({ pos, provinceId }) => {
                                         if (result) {
                                             setInputComment('')
                                             setCountStar(0)
+                                            alert('Bình luận thành công')
                                             await getAllCommentsProvince(provinceId)
                                         }
                                     } catch (error) {

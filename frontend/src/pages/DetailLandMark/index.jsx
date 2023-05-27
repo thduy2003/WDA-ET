@@ -114,7 +114,7 @@ const DetailLandMark = ({ position = "Long An" }) => {
                                         </div>
                                         <div>
                                             <div className="text-[28px] leading-[36px] text-[#141716] font-semibold mb-6">  Đánh giá </div>
-                                            <Comment pos={position} provinceId={id}>
+                                            <Comment pos={position} landmarkId={id}>
                                             </Comment>
                                         </div>
                                     </div>

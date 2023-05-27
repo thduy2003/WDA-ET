@@ -14,9 +14,7 @@ const Auth = () => {
     const user = useSelector((state) => state.authReducer.authData)
     let error = useSelector((state) => state.authReducer.error)
     const loading = useSelector(state => state.authReducer.loading)
-    if (user) {
-        navigate('/forum')
-    }
+
 
     return (
         <div className='grid grid-cols-3 h-[100vh] '>

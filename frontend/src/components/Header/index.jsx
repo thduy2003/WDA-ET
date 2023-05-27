@@ -13,7 +13,7 @@ const Header = () => {
             <div className='flex text-[#141716] text-base font-medium flex-row gap-x-9 items-center'>
                 <Link to='/'>Trang chủ</Link>
                 <Link to='/trip'>Đề xuất lộ trình</Link>
-                <Link to='/'>Diễn đàn</Link>
+                <Link to='/forum'>Diễn đàn</Link>
                 {user ? <div className='flex items-center'>
                     <ProfileCircle size="20" color="#FAFBFC" variant="Bold" />
                     <div className='ml-1'>{user.user.name}</div>

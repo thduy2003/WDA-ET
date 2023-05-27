@@ -8,8 +8,8 @@ import Button from '../../../components/Button';
 import StarRating from '../StarRating/StarRating';
 import TotalStar from '../StarRating/TotalStar';
 import { useSelector } from 'react-redux';
-import { getAllCommentsProvince, postCommentProvince } from '../../../api/commentAPI';
-const Comment = ({ pos, provinceId }) => {
+import { getAllCommentsLandmark, getAllCommentsProvince, postCommentLandmark, postCommentProvince } from '../../../api/commentAPI';
+const Comment = ({ pos, landmarkId }) => {
     const [page, setPage] = useState(1)
     const [inputComment, setInputComment] = useState()
     const user = useSelector((state) => state.authReducer.authData)
@@ -31,19 +31,19 @@ const Comment = ({ pos, provinceId }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const result = await getAllCommentsProvince(provinceId)
+                const result = await getAllCommentsLandmark(landmarkId)
 
                 setDataComment(result.data)
             } catch (error) {
                 console.log(error)
             }
         }
-        if (provinceId) {
+        if (landmarkId) {
             fetchData()
         }
 
-    }, [provinceId])
-    console.log(dataComment)
+    }, [landmarkId])
+
     return (
         <div>
             <div>
@@ -66,11 +66,12 @@ const Comment = ({ pos, provinceId }) => {
                                 } else {
 
                                     try {
-                                        const result = await postCommentProvince({ province_id: provinceId, author_id: user.user._id, rating: countStar, content: inputComment })
-                                        if (result) {
+                                        const result = await postCommentLandmark({ landmark_id: landmarkId, author_id: user.user._id, rating: countStar, content: inputComment })
+                                        if (result.message === 'OK') {
                                             setInputComment('')
                                             setCountStar(0)
-                                            console.log(result)
+                                            await getAllCommentsProvince(landmarkId)
+                                            alert('Bình luận thành công')
                                         }
                                     } catch (error) {
                                         console.log(error)

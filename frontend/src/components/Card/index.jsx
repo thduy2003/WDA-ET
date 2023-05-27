@@ -57,7 +57,7 @@ const Card = props => {
                         </h5>
                     </Link>
 
-                    <p className="mb-3 text-[14px] leading-5 font-normal text-[#888888] ">
+                    <p className="mb-3 text-[14px] leading-5 font-normal text-[#888888] line-clamp-2">
                         {data?.address}
                     </p>
                 </div>

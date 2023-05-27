@@ -103,7 +103,7 @@ const Profile = () => {
                 </div>
             </div>}
             {
-                tabActive === 3 && <div className='flex flex-wrap mt-3 mb-3'>
+                tabActive === 3 && <div className='flex gap-x-3 flex-wrap mt-3 mb-3'>
                     {likedLandmark.map((data, index) => <Card data={data} widthImage={250} heightImage={200} key={index} />)}
                 </div>
             }

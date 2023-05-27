@@ -13,9 +13,10 @@ import { likeLandmark, unLikeLandmark } from '../../actions/UserAction';
 
 const Card = props => {
     const { data, widthImage, heightImage } = props;
+    const user = useSelector(state => state.authReducer.authData)
     const dispatch = useDispatch()
-    const { user } = useSelector(state => state.authReducer.authData)
-    const [liked, setLiked] = useState(user.favorite_landmark.includes(data._id))
+
+    const [liked, setLiked] = useState(user?.favorite_landmark?.includes(data?._id) ?? false)
     const handleClick = () => {
         if (liked) {
             dispatch(unLikeLandmark(data?._id, user))

@@ -10,7 +10,7 @@ const PostForm = ({ setModal }) => {
 
     const dispatch = useDispatch()
     const loading = useSelector(state => state.postReducer.uploading)
-    const { user } = useSelector(state => state.authReducer.authData)
+    const user = useSelector(state => state.authReducer.authData)
 
 
     const [changePri, setChangePri] = useState("off");

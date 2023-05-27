@@ -5,7 +5,7 @@ import { serverPublic } from '../../../utils';
 
 const User = ({ data }) => {
     const dispatch = useDispatch()
-    const { user } = useSelector(state => state.authReducer.authData)
+    const user = useSelector(state => state.authReducer.authData)
 
     const [following, setFollowing] = useState(user.follow.includes(data._id))
 

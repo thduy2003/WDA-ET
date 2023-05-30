@@ -14,8 +14,8 @@ const TopWeek = ({ img, top, name, province, view }) => {
                 <div className="w-full">
                     <div className="text-[#141716] font-semibold text-[20px] mb-1">{name} </div>
                     <div className="text-[#888888] text-[12px] flex justify-between ">
-                        <p className=''>{province}</p>
-                        <p>{view} Review</p>
+                        <p className='mr-[5px]'>{province}</p>
+                        <p className='whitespace-nowrap'>{view} Review</p>
                     </div>
                 </div>
             </div>

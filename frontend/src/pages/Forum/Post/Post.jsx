@@ -4,6 +4,7 @@ import { serverPublic } from '../../../utils';
 import { useSelector } from 'react-redux';
 import { likePost } from '../../../api/ForumAPI';
 import { format } from 'timeago.js'
+import { getUser } from '../../../api/userAPI';
 const Post = ({ data, showComment = f => f, getPostId = f => f }) => {
 
     const [more, setMore] = useState(false)
@@ -29,15 +30,17 @@ const Post = ({ data, showComment = f => f, getPostId = f => f }) => {
             console.log(error)
         }
     }
+
+
     return (
         <div className="p-4 shadow-md rounded-[8px]">
             <div className="flex justify-between items-center mb-3">
                 <div className="flex gap-3">
                     <div>
-                        <img className='w-[50px] h-[50px] rounded-full' src={`https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/User_icon-cp.svg/1200px-User_icon-cp.svg.png`} />
+                        <img className='w-[50px] h-[50px] rounded-full' src={`${serverPublic}profile/${data?.avatar ?? user.avatar}`} />
                     </div>
                     <div className="flex flex-col gap-0">
-                        <div className="text-[#141716] font-semibold text-[20px] mb-2"> {data?.name ?? user.name}</div>
+                        <div className="text-[#141716] font-semibold md:text-[20px] mb-2"> {data?.name ?? user.name}</div>
                         <div className="text-[#888888] text-[12px] leading-[0]"> {format(data.date_post)}</div>
                     </div>
                 </div>
@@ -57,7 +60,7 @@ const Post = ({ data, showComment = f => f, getPostId = f => f }) => {
             <div className="mb-3">
                 <img src={`${serverPublic}posts/${data.image}`} className="rounded" />
             </div>
-            <div className="flex justify-between py-3 px-[80.5px] border-t border-gray-200 border-solid">
+            <div className="flex justify-between py-3 px-[30px] md:px-[80.5px] border-t border-gray-200 border-solid">
                 <div className="flex gap-2 items-center cursor-pointer" onClick={handleLike} >
                     <span className='text-[#888888]'>{likes}</span>
                     <Like1

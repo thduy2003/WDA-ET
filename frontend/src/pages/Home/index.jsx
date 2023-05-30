@@ -20,6 +20,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllLandMarksByType } from '../../api/LandMarkAPI';
 import { logOut } from '../../actions/AuthAction';
 import { serverPublic } from '../../utils';
+import Header from '../../components/Header';
+import { useWindowDimensions } from '../../hooks/useWindowDimension';
 const Home = () => {
 
     const [tabActive, setTabActive] = useState(1)
@@ -33,6 +35,7 @@ const Home = () => {
     const user = useSelector((state) => state.authReducer.authData)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const { isMobile } = useWindowDimensions()
     const handleChangeTab = (e) => {
         if (e.target.innerText === 'Danh lam thắng cảnh') {
             setTabActive(1)
@@ -106,25 +109,8 @@ const Home = () => {
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat'
             }}>
-                <div className='flex items-center justify-between px-[92px] py-[16px]'>
-                    <Link to='/'> <Logo color='white' /></Link>
-                    <div className='flex text-[#FAFBFC] text-base font-medium flex-row gap-x-9 items-center'>
-                        <Link to='/'>Trang chủ</Link>
-                        <Link to='/trip'>Đề xuất lộ trình</Link>
-                        <Link to='/forum'>Diễn đàn</Link>
-                        {user ? <Popover content={<div className='cursor-pointer' onClick={() => {
-                            dispatch(logOut())
-                        }}>Đăng xuất</div>} title={null}>
-                            <Link to={`/profile/${user.user._id}`} className='flex items-center'>
-                                <div className='w-5 h-5 rounded-full'>
-                                    <img className='w-5 h-5 rounded-full' src={`${serverPublic}profile/${user?.user?.avatar}`} />
-                                </div>
-                                <div className='ml-1'>{user.user.name}</div>
-                            </Link>
-                        </Popover> : <Link to='/auth'><Button size='small' type='outline-white' iconPosition='left' iconLeft={<ProfileCircle size="20" color="#FAFBFC" variant="Bold" />}>Đăng kí</Button></Link>}
-                    </div>
-                </div>
-                <div className='mx-auto text-[#FAFBFC] my-[115px] w-[780px] text-[57px] leading-[64px] font-semibold text-center'>
+                <Header isBorder={false} colorLogo='white' textColor='white' />
+                <div className='mx-auto text-[#FAFBFC] my-[30px]  md:my-[115px] md:w-[780px] text-[30px] md:text-[57px] md:leading-[64px] font-semibold text-center'>
                     Khám phá nét đẹp tiềm ẩn của
                     Việt Nam
                 </div>
@@ -133,17 +119,17 @@ const Home = () => {
                         placement="bottom"
                         description={<div>
                             {debounceValue.length > 0 ? <div>
-                                <div className='p-6 bg-white min-w-[811px] '>
+                                <div className='md:p-6 bg-white max-sm:max-w-[300px] md:min-w-[811px] '>
                                     <div>
-                                        <h3 className='mb-4 text-[#141716] text-xl font-semibold'>Tỉnh</h3>
+                                        <h3 className='mb-4 text-[#141716] text-base md:text-xl font-semibold'>Tỉnh</h3>
                                         <Link to={`/detail/${dataProvince && dataProvince[0]?._id}`} className='relative w-full'>
-                                            <img className='w-full h-[102px] object-cover rounded-lg' src={`https://vie-wander-be.herokuapp.com/public/images/provinces/${dataProvince && dataProvince[0]?.images[0]}`} />
+                                            <img className='w-full h-[102px] object-cover rounded-lg' src={`http://127.0.0.1:6789/public/images/provinces/${dataProvince && dataProvince[0]?.images[0]}`} />
                                             <div className='bg-[#141716] w-full h-full absolute top-0 rounded-lg opacity-50'>
 
                                             </div>
                                             <h2 className='text-base absolute top-[50%] left-[50%] -translate-x-1/2  -translate-y-1/2 font-medium text-[#FAFBFC]'>{dataProvince && dataProvince[0]?.name}</h2>
                                         </Link>
-                                        <h3 className='mb-4 text-[#141716] text-xl font-semibold mt-9'>Địa điểm đề xuất</h3>
+                                        <h3 className='mb-4 text-[#141716] text-base md:text-xl font-semibold mt-9'>Địa điểm đề xuất</h3>
                                         <div className='flex flex-col  gap-y-3 mt-4'>
                                             <div className='flex justify-between items-center'>
                                                 <div className='flex items-center'>
@@ -164,7 +150,7 @@ const Home = () => {
                                 </div>
                             </div> :
 
-                                <><div className='p-6 bg-white min-w-[811px] '>
+                                <><div className='p-6 bg-white  md:min-w-[811px] '>
                                     <div>
                                         <h3 className='mb-4 text-[#141716] text-xl font-semibold'>Lịch sử tìm kiếm</h3>
                                         <div className='flex flex-col gap-y-3'>
@@ -196,10 +182,10 @@ const Home = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <h3 className='mt-9 mb-4 text-[#141716] text-xl font-semibold'>Từ khóa được tìm kiếm nhiều nhất</h3>
+                                        <h3 className='md:block hidden mt-9 mb-4 text-[#141716] text-xl font-semibold'>Từ khóa được tìm kiếm nhiều nhất</h3>
                                     </div>
                                 </div>
-                                    <div className='pl-6 overflow-hidden'>
+                                    <div className='md:block hidden pl-6 overflow-hidden'>
                                         <Carousel
                                             margin={32}
                                             datas={LocationData}
@@ -229,7 +215,7 @@ const Home = () => {
                         }}>
                         <>
                             <InputGroup
-                                className="md:block w-[811px] hidden text"
+                                className="block w-[300px]  md:w-[811px] text"
                                 left={<SearchNormal1 size="16" color="#FAFBFC" variant="Outline" />}
                                 placeholder={'Tìm kiếm địa điểm, danh lam thắng cảnh,...'}
                                 onChange={onChangeInput}
@@ -240,14 +226,14 @@ const Home = () => {
 
 
                 </div>
-                <div className='mt-6 flex items-center gap-x-4 w-fit mx-auto'>
+                <div className='md:mt-6 mt-3 flex items-center gap-x-2 md:gap-x-4 w-fit mx-auto'>
                     <Select onChange={handleChangeSelectFrom} options={provinces} className='select-home ' placeholder='Chọn điểm đi'>
 
                     </Select>
                     <Select onChange={handleChangeSelectTo} options={provinces} className='select-home' placeholder='Chọn điểm đến'>
 
                     </Select>
-                    <Button size='big' type='primary' onClick={() => {
+                    {isMobile ? <></> : <Button size='big' type='primary' onClick={() => {
                         if (provinceFrom && provinceTo) {
                             navigate({
                                 pathname: '/trip',
@@ -260,25 +246,47 @@ const Home = () => {
                         } else {
                             alert('vui lòng chọn điểm đi và điểm đến')
                         }
-                    }} iconPosition='right' iconRight={<ArrowCircleRight2 size="20" color="#FAFBFC" variant="Bold" />}  > Đề xuất lộ trình </Button>
-                </div>
+                    }} iconPosition='right' iconRight={<ArrowCircleRight2 size="20" color="#FAFBFC" variant="Bold" />}  > Đề xuất lộ trình </Button>}
+
+                </div >
+                {
+                    isMobile ? <div className='flex items-center justify-center mt-2'>
+                        <Button style={{ padding: '13px' }} size='small' type='primary' onClick={() => {
+                            if (provinceFrom && provinceTo) {
+                                navigate({
+                                    pathname: '/trip',
+                                    search: createSearchParams({
+                                        ...queryConfig,
+                                        start: provinceFrom,
+                                        end: provinceTo
+                                    }).toString()
+                                })
+                            } else {
+                                alert('vui lòng chọn điểm đi và điểm đến')
+                            }
+                        }} iconPosition='right' iconRight={<ArrowCircleRight2 size="20" color="#FAFBFC" variant="Bold" />}  > Đề xuất lộ trình </Button>
+                    </div> : <></>
+                }
             </div>
-            <div className='px-[92px] mt-[56px] mb-[120px] bg-white'>
-                <h1 className='text-[28px] leading-[36px] text-[#141716] font-semibold'>Địa điểm được quan tâm</h1>
-                <div className='w-fit flex mt-[24px] mb-6' style={{ borderBottom: '1.5px solid #C2C2C2' }}>
-                    <div onClick={(e) => handleChangeTab(e)} className={`cursor-pointer pb-2 mb-[-1px] text-xl ${tabActive === 1 ? 'border-b-[1.5px] border-b-p1 font-semibold ' : 'text-third'}`} >Danh lam thắng cảnh</div>
-                    <div onClick={(e) => handleChangeTab(e)} className={`mx-9 cursor-pointer pb-2 mb-[-1px] text-xl ${tabActive === 2 ? 'border-b-[1.5px] border-b-p1 font-semibold ' : 'text-third'}`}>Di tích lịch sử</div>
-                    <div onClick={(e) => handleChangeTab(e)} className={`cursor-pointer pb-2 mb-[-1px] text-xl ${tabActive === 3 ? 'border-b-[1.5px] border-b-p1 font-semibold ' : 'text-third'}`}>Làng nghề truyến thống</div>
+            <div className='px-[30px]  md:px-[92px] mt-[15px] md:mt-[56px] mb-[30px] md:mb-[120px] bg-white'>
+                <h1 className='text-[22px] md:text-[28px] leading-[36px] text-[#141716] font-semibold'>Địa điểm được quan tâm</h1>
+
+                <div className='md:w-fit flex mt-[24px] mb-6 max-sm:overflow-x-auto ' style={{ borderBottom: '1.5px solid #C2C2C2' }}>
+                    <div onClick={(e) => handleChangeTab(e)} className={`cursor-pointer max-sm:whitespace-nowrap md:pb-2 mb-[-1px] text-base md:text-xl ${tabActive === 1 ? 'border-b-[1.5px] border-b-p1 font-semibold ' : 'text-third'}`} >Danh lam thắng cảnh</div>
+                    <div onClick={(e) => handleChangeTab(e)} className={`mx-9 cursor-pointer max-sm:whitespace-nowrap md:pb-2 mb-[-1px] text-base md:text-xl ${tabActive === 2 ? 'border-b-[1.5px] border-b-p1 font-semibold ' : 'text-third'}`}>Di tích lịch sử</div>
+                    <div onClick={(e) => handleChangeTab(e)} className={`cursor-pointer max-sm:whitespace-nowrap md:pb-2 mb-[-1px] text-base md:text-xl ${tabActive === 3 ? 'border-b-[1.5px] border-b-p1 font-semibold ' : 'text-third'}`}>Làng nghề truyến thống</div>
                 </div>
-                {listLandMarks && <div className='overflow-hidden'>
+
+                {listLandMarks && <div className='md:overflow-hidden max-sm:overflow-x-auto '>
                     <Carousel
                         margin={32}
                         datas={listLandMarks ?? []}
-
-                        items={5}
+                        overflow={isMobile ? true : false}
+                        hiddenButton={isMobile ? true : false}
+                        items={isMobile ? 2 : 5}
                         renderItem={item => {
                             return (
-                                <Card data={item} widthImage={300} heightImage={257} />
+                                <Card data={item} widthImage={isMobile ? 250 : 300} heightImage={isMobile ? 200 : 257} />
                             );
                         }}
                     />

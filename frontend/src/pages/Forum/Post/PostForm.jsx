@@ -58,13 +58,13 @@ const PostForm = ({ setModal }) => {
     }
     return (
         <div className="mt-16 z-10 absolute">
-            <div className="flex flex-col gap-3 p-9 shadow-lg rounded-[8px] bg-white w-[811px] translate-x-[45%]">
+            <div className="flex flex-col gap-3 p-9 shadow-lg rounded-[8px] bg-white md:w-[811px] md:translate-x-[45%]">
                 <p className="text-[#141716] font-semibold text-[28px]"> Đăng bài </p>
                 <div>
                     <div className="flex justify-between mb-4">
                         <div className="flex gap-3 items-center">
                             <img className='w-[48px] h-[48px] rounded-full' src={`${serverPublic}profile/${user?.avatar}`} alt="" />
-                            <p className="text-[#141716] font-semibold text-[20px]">{user.name}</p>
+                            <p className="text-[#141716] font-semibold text-[13px] max-sm:mr-2 md:text-[20px]">{user.name}</p>
                         </div>
                         <div className="flex w-[143px] h-[36px]  justify-between items-center px-2 py-3 border border-solid border-[#D02F3D] rounded-[4px] cursor-pointer relative" onClick={() => setChangePri("on")} >
                             {pri === "Công khai"

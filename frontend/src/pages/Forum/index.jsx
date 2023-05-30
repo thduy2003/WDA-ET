@@ -59,19 +59,15 @@ const Forum = () => {
                     <div className="w-full h-screen  bg-black bg-opacity-10 z-0 top-0" onClick={() => setComment(false)}></div>
                 </div>
                 : ""}
-            <div className='mt-[36px] px-[30px] relative'>
-                <div className='grid grid-cols-12 gap-14'>
-                    <div className='col-span-3 text-[0px] flex flex-col'>
-                        <p className="mb-6 text-[#141716] font-semibold text-[28px]"> Bạn có thể biết </p>
+            <div className='mt-[36px] px-[20px] md:px-[30px] relative'>
+                <div className='md:grid md:grid-cols-12 gap-14'>
+                    <div className='md:col-span-3 max-sm:w-full max-sm:mb-[50px] text-[0px] flex flex-col'>
+                        <p className="mb-6 text-[#141716] font-semibold text-[20px] md:text-[28px]"> Bạn có thể biết </p>
                         <UserList allUsers={listUsers}></UserList>
                     </div>
                     <div className='col-span-6'>
                         <div className="flex gap-3 p-4 shadow-lg rounded-[8px]">
-                            <ProfileCircle
-                                size="48"
-                                color="black"
-                                variant="Bold"
-                            />
+                            <img className='w-[48px] h-[48px] rounded-full object-cover' src={`${serverPublic}profile/${user.avatar}`} />
                             <div className='bg-[#EAEAEA] w-full rounded-[8px] p-4 cursor-pointer' onClick={() => setPost(true)}>
                                 <p className="text-[#888888]">Bắt đầu đăng bài</p>
                             </div>
@@ -80,7 +76,7 @@ const Forum = () => {
                     </div>
                     <div className='col-span-3'>
                         <div className='col-span-3 text-[0px] flex flex-col'>
-                            <p className="mb-6 text-[#141716] font-semibold text-[28px]"> Địa điểm của tuần </p>
+                            <p className="mb-6 max-sm:mt-6 text-[#141716] font-semibold text-[20px] md:text-[28px]"> Địa điểm của tuần </p>
 
                             <div className="flex flex-col gap-4">
                                 {listLandMarks?.length > 0 && listLandMarks?.map((item, index) => {

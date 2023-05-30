@@ -49,16 +49,16 @@ const Profile = () => {
     }, [])
     if (!profileUser) return <span>No data</span>
     return (
-        <div className='px-[92px]'>
+        <div className='px-[30px] md:px-[92px] '>
             <div className='w-full h-[200px] mb-2'>
                 <img className='w-full h-[200px] object-cover' src='/images/banner.png'></img>
             </div>
             <div className='flex justify-between items-center mb-5'>
                 <div className='flex items-center'>
-                    <div className='w-[60px h-[60px] rounded-full mr-6'>
-                        <img className='w-[60px h-[60px] rounded-full ' src={`${serverPublic}profile/${profileUser?.avatar}`} />
+                    <div className='w-[40px] max-sm:flex-shrink-0 h-[40px] md:w-[60px] md:h-[60px] object-cover rounded-full mr-6'>
+                        <img className='w-[40px] h-[40px] object-cover md:w-[60px] md:h-[60px] rounded-full ' src={`${serverPublic}profile/${profileUser?.avatar}`} />
                     </div>
-                    <div className='text-[#141716] text-2xl font-semibold'>
+                    <div className='text-[#141716] text-base md:text-2xl font-semibold'>
                         {profileUser?.name}
                     </div>
                 </div>
@@ -68,12 +68,12 @@ const Profile = () => {
                 </div>
             </div>
             <div className='w-fit flex mt-[24px] mb-6' style={{ borderBottom: '1.5px solid #C2C2C2' }}>
-                <div onClick={(e) => handleChangeTab(e)} className={`cursor-pointer pb-2 mb-[-1px] text-xl ${tabActive === 1 ? 'border-b-[1.5px] border-b-p1 font-semibold ' : 'text-third'}`} >Trang cá nhân</div>
-                <div onClick={(e) => handleChangeTab(e)} className={`mx-9 cursor-pointer pb-2 mb-[-1px] text-xl ${tabActive === 2 ? 'border-b-[1.5px] border-b-p1 font-semibold ' : 'text-third'}`}>Bạn bè</div>
-                <div onClick={(e) => handleChangeTab(e)} className={`cursor-pointer pb-2 mb-[-1px] text-xl ${tabActive === 3 ? 'border-b-[1.5px] border-b-p1 font-semibold ' : 'text-third'}`}>Địa điểm đã lưu</div>
+                <div onClick={(e) => handleChangeTab(e)} className={`cursor-pointer pb-2 mb-[-1px] text-sm md:text-xl ${tabActive === 1 ? 'border-b-[1.5px] border-b-p1 font-semibold ' : 'text-third'}`} >Trang cá nhân</div>
+                <div onClick={(e) => handleChangeTab(e)} className={`mx-9 cursor-pointer pb-2 mb-[-1px] text-sm md:text-xl ${tabActive === 2 ? 'border-b-[1.5px] border-b-p1 font-semibold ' : 'text-third'}`}>Bạn bè</div>
+                <div onClick={(e) => handleChangeTab(e)} className={`cursor-pointer pb-2 mb-[-1px] text-sm md:text-xl ${tabActive === 3 ? 'border-b-[1.5px] border-b-p1 font-semibold ' : 'text-third'}`}>Địa điểm đã lưu</div>
             </div>
-            {tabActive === 1 && <div className='grid grid-cols-12 gap-x-3'>
-                <div className='col-span-4'>
+            {tabActive === 1 && <div className='grid md:grid-cols-12 gap-x-3'>
+                <div className='md:col-span-4'>
                     <div className='p-5 bg-[#FAFBFC] rounded-lg mb-4' style={{ boxShadow: '0px 2px 8px 2px rgba(0, 0, 0, 0.08)' }}>
                         <h3 className='text-[#141716] text-lg font-semibold'>Giới thiệu</h3>
                         <div className='flex flex-col gap-y-2'>
@@ -103,7 +103,7 @@ const Profile = () => {
                 </div>
             </div>}
             {
-                tabActive === 3 && <div className='flex gap-x-3 flex-wrap mt-3 mb-3'>
+                tabActive === 3 && <div className='flex gap-x-3 flex-wrap mt-3 mb-3 max-sm:overflow-x-auto'>
                     {likedLandmark.map((data, index) => <Card data={data} widthImage={250} heightImage={200} key={index} />)}
                 </div>
             }

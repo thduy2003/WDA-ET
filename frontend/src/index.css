@@ -46,14 +46,26 @@ body {
 }
 .select-home {
   width: 302px;
+  @media only screen and (max-width: 600px) {
+    width: 145px;
+  }
 }
 .ant-select-selector {
   height: 64px !important;
   padding: 16px 16px !important;
+  @media only screen and (max-width: 600px) {
+    height: 45px !important;
+    padding: 5px 5px !important;
+  }
 }
 .select-admin .ant-select-selector {
   height: 30px !important;
   padding: 0 10px !important;
+}
+.banner-home {
+  @media only screen and (max-width: 600px) {
+    height: 400px !important;
+  }
 }
 .ant-select-selection-placeholder {
   color: #888888;
@@ -103,10 +115,34 @@ body {
 }
 .style_images_detail img {
   width: 100%;
+  @media only screen and (max-width: 600px) {
+    height: unset !important;
+  }
   height: 300px;
+
   object-fit: contain;
   margin-bottom: 10px;
 }
 .profile_user .ant-btn {
   display: none !important;
+}
+.NavbarModal .ant-modal-body {
+  height: 100%;
+}
+.NavbarModal .ant-modal-footer button:nth-child(2) {
+  display: none;
+}
+.NavbarModal {
+  height: 100vh !important;
+  top: 0px !important;
+  margin: 0px !important;
+  border-radius: 0px !important;
+}
+.NavbarModal .ant-modal-content {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  border-radius: 0;
 }

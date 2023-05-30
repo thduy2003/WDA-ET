@@ -44,7 +44,7 @@ const CommentList = ({ choosedPost }) => {
 
     return (
         <div className="mt-5 z-10 absolute">
-            <div className="flex flex-col gap-4 p-9 shadow-lg rounded-[8px] bg-white w-[811px] translate-x-[45%]">
+            <div className="flex flex-col gap-4 p-9 shadow-lg rounded-[8px] bg-white md:w-[811px] md:translate-x-[45%]">
                 <div className="flex justify-between items-center">
                     <p className="text-[#141716] font-semibold text-[28px]"> Bình luận </p>
                     <div className="flex gap-2">

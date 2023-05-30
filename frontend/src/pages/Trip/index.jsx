@@ -139,11 +139,11 @@ const Trip = () => {
     }, [cityRoute, tabActive])
 
     return (
-        <div className='mt-[48px] mb-[56px] w-full ' style={{ backgroundImage: 'url(/images/map.png)' }}>
-            <div className='flex gap-x-[92px]'>
-                <div className=' w-[680px] h-full'>
+        <div className='mt-[20px] md:mt-[48px] max-sm:px-2 mb-[20px] md:mb-[56px] w-full ' style={{ backgroundImage: 'url(/images/map.png)' }}>
+            <div className='flex max-sm:flex-col gap-x-[20px]  md:gap-x-[92px]'>
+                <div className=' md:w-[680px] h-full'>
 
-                    <div className='flex flex-row gap-x-2 '>
+                    <div className='flex  md:flex-row gap-x-2 '>
                         {cityRoute?.length > 0 ? cityRoute?.map((a, i) => {
                             return <div key={i} className='w-full  flex flex-col mt-5  items-center'>
                                 {
@@ -197,31 +197,31 @@ const Trip = () => {
 
                             </div>
                         }) : <div className='flex mt-16 mx-auto'>
-                            <h1 className='text-xl'>{isLoading ? 'Đang tìm kiếm lộ trình. Bạn chờ chút nhé ...' : 'Chọn lộ trình của bạn để xem các tỉnh đi qua theo cung đường ngắn nhất'}</h1>
+                            <h1 className='ml-2 text-sm md:text-xl'>{isLoading ? 'Đang tìm kiếm lộ trình. Bạn chờ chút nhé ...' : 'Chọn lộ trình của bạn để xem các tỉnh đi qua theo cung đường ngắn nhất'}</h1>
                         </div>}
 
 
                     </div>
 
                 </div>
-                <div className='flex flex-col gap-y-6 w-[620px] h-full'>
+                <div className='flex flex-col gap-y-3 md:gap-y-6 md:w-[620px] h-full'>
 
                     <div className='flex flex-col gap-y-[10px] w-full'>
-                        <h2 className='text-[#141716] text-[28px] leading-[36px] font-semibold'>Lộ trình của bạn</h2>
+                        <h2 className='text-[#141716] text-[20px] md:text-[28px] leading-[36px] font-semibold'>Lộ trình của bạn</h2>
                         <div className='flex items-center gap-x-4 w-full'>
                             <Select value={provinceFrom ? listProvinces.find(item => item.label === provinceFrom)?.value : undefined} onChange={handleChangeSelectFrom} defaultValue={provinceFrom ? listProvinces.find(item => item.label === provinceFrom)?.value : undefined} options={listProvinces} className='w-full' placeholder='Chọn điểm đi' />
-                            <Select value={provinceTo ? listProvinces.find(item => item.label === provinceTo)?.value : undefined} onChange={handleChangeSelectTo} defaultValue={provinceTo ? listProvinces.find(item => item.label === provinceTo)?.value : undefined} options={listProvinces} className='w-full' placeholder='Chọn điểm đến' /> </div>
+                            <Select value={provinceTo ? listProvinces.find(item => item.label === provinceTo)?.value : undefined} onChange={handleChangeSelectTo} defaultValue={provinceTo ? listProvinces.find(item => item.label === provinceTo)?.value : undefined} options={listProvinces} className=' w-full' placeholder='Chọn điểm đến' /> </div>
                     </div>
-                    <div className='flex flex-col gap-y-[16px]'>
-                        <h2 className='text-[#141716] text-[28px] leading-[36px] font-semibold'>Địa điểm đề xuất</h2>
-                        <div className='flex gap-x-3'>
-                            <div onClick={(e) => handleChangeTab(e)} style={tabActive === 1 ? { border: '1px solid #D02F3D' } : { border: '1px solid #EAEAEA' }} className={`w-fit py-1 px-3 ${tabActive === 1 ? 'text-[#D02F3D]' : 'text-[#888888]'} text-base font-medium bg-[#FAFBFC] rounded-[4px]`}>
+                    <div className='flex flex-col gap-y-[16px] max-sm:overflow-hidden'>
+                        <h2 className='text-[#141716] text-[20px] md:text-[28px] leading-[36px] font-semibold'>Địa điểm đề xuất</h2>
+                        <div className='flex gap-x-3 max-sm:overflow-auto'>
+                            <div onClick={(e) => handleChangeTab(e)} style={tabActive === 1 ? { border: '1px solid #D02F3D' } : { border: '1px solid #EAEAEA' }} className={`w-fit py-1 px-3 ${tabActive === 1 ? 'text-[#D02F3D]' : 'text-[#888888]'} text-xs max-sm:whitespace-nowrap md:text-base font-medium bg-[#FAFBFC] rounded-[4px]`}>
                                 Danh lam thắng cảnh
                             </div>
-                            <div onClick={(e) => handleChangeTab(e)} style={tabActive === 2 ? { border: '1px solid #D02F3D' } : { border: '1px solid #EAEAEA' }} className={`w-fit py-1 px-3 ${tabActive === 2 ? 'text-[#D02F3D]' : 'text-[#888888]'} text-base font-medium bg-[#FAFBFC] rounded-[4px]`}>
+                            <div onClick={(e) => handleChangeTab(e)} style={tabActive === 2 ? { border: '1px solid #D02F3D' } : { border: '1px solid #EAEAEA' }} className={`w-fit py-1 px-3 ${tabActive === 2 ? 'text-[#D02F3D]' : 'text-[#888888]'} text-xs md:text-base max-sm:whitespace-nowrap font-medium bg-[#FAFBFC] rounded-[4px]`}>
                                 Di tích lịch sử
                             </div>
-                            <div onClick={(e) => handleChangeTab(e)} style={tabActive === 3 ? { border: '1px solid #D02F3D' } : { border: '1px solid #EAEAEA' }} className={`w-fit py-1 px-3 ${tabActive === 3 ? 'text-[#D02F3D]' : 'text-[#888888]'} text-base font-medium bg-[#FAFBFC] rounded-[4px]`}>
+                            <div onClick={(e) => handleChangeTab(e)} style={tabActive === 3 ? { border: '1px solid #D02F3D' } : { border: '1px solid #EAEAEA' }} className={`w-fit py-1 px-3 ${tabActive === 3 ? 'text-[#D02F3D]' : 'text-[#888888]'} text-xs md:text-base max-sm:whitespace-nowrap font-medium bg-[#FAFBFC] rounded-[4px]`}>
                                 Làng nghề truyền thống
                             </div>
                         </div>

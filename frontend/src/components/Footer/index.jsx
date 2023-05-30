@@ -5,13 +5,13 @@ import Logo from '../Logo';
 const Footer = () => {
     return (
         <div className='bg-white ' style={{ borderTop: '1px solid #888888' }}>
-            <div className='px-[92px] py-[72px]'>
+            <div className='px-[30px] max-sm:flex max-sm:flex-col max-sm:items-center max-sm:justify-center md:px-[92px] py-[30px] md:py-[72px]'>
 
                 <div>
                     <Logo />
                     <span className='text-[#141716] text-base leading-[19px] font-light'>Việt Nam trong tầm tay</span>
                 </div>
-                <div className='flex justify-between mt-6'>
+                <div className='md:flex justify-between mt-6'>
                     <div className='flex flex-col max-w-[371px]'>
                         <p className='text-base font-normal'>Sứ mạng của chúng tôi là mang những nét đẹp văn hóa Việt Nam vào trong các hành trình du lịch cho con người Việt Nam.</p>
                         <div className='flex items-center mt-[32px]'>

@@ -24,6 +24,7 @@ import { serverPublic } from '../../utils';
 import { Popover } from 'antd';
 import { logOut } from '../../actions/AuthAction';
 import Footer from '../../components/Footer';
+import Header from '../../components/Header';
 
 const DetailLandMark = ({ position = "Long An" }) => {
     let [zoom, setZoom] = useState('false');
@@ -43,7 +44,7 @@ const DetailLandMark = ({ position = "Long An" }) => {
             setTabActive(3)
         }
     }
-    console.log(id)
+
     useEffect(() => {
         const fetchDetail = async () => {
             const result = await getLandmarkById(id)
@@ -85,25 +86,8 @@ const DetailLandMark = ({ position = "Long An" }) => {
                             zIndex: -2
                         }}
                     ></div>
-                    <div className='flex items-center z-[99999] justify-between px-[92px] py-[16px]'>
-                        <Link to='/'> <Logo color='white' /></Link>
-                        <div className='flex text-[#FAFBFC] text-base font-medium flex-row gap-x-9 items-center'>
-                            <Link to='/'>Trang chủ</Link>
-                            <Link to='/trip'>Đề xuất lộ trình</Link>
-                            <Link to='/forum'>Diễn đàn</Link>
-                            {user ? <Popover content={<div className='cursor-pointer' onClick={() => {
-                                dispatch(logOut())
-                            }}>Đăng xuất</div>} title={null}>
-                                <Link to={`/profile/${user.user._id}`} className='flex items-center'>
-                                    <div className='w-5 h-5 rounded-full'>
-                                        <img className='w-5 h-5 rounded-full' src={`${serverPublic}profile/${user?.user?.avatar}`} />
-                                    </div>
-                                    <div className='ml-1'>{user.user.name}</div>
-                                </Link>
-                            </Popover> : <Link to='/auth'><Button size='small' type='outline-white' iconPosition='left' iconLeft={<ProfileCircle size="20" color="#FAFBFC" variant="Bold" />}>Đăng kí</Button></Link>}
-                        </div>
-                    </div>
-                    <div className='mx-auto text-[#FAFBFC] my-[115px] w-[780px] text-[57px] leading-[64px] font-semibold text-center'>
+                    <Header isBorder={false} colorLogo='white' textColor='white' />
+                    <div className='mx-auto text-[#FAFBFC] my-[100px] text-[25px] md:my-[115px] md:w-[780px] md:text-[57px] leading-[64px] font-semibold text-center'>
                         {detail?.name ?? ''}
                     </div>
                 </div>
@@ -111,9 +95,9 @@ const DetailLandMark = ({ position = "Long An" }) => {
                     {
                         zoom == 'false' ?
                             <>
-                                <div className="flex justify-between gap-14  w-[90%] mt-14">
+                                <div className="flex max-sm:flex-col-reverse justify-between gap-9 md:gap-14  w-[90%] mt-14">
                                     {/* Main */}
-                                    <div className="w-[75%]">
+                                    <div className="md:w-[75%]">
                                         <div className='text-2xl font-semibold mb-2'>1. Tổng quan</div>
                                         <div className='style_images_detail' dangerouslySetInnerHTML={{ __html: detail?.overview }}>
 
@@ -129,7 +113,7 @@ const DetailLandMark = ({ position = "Long An" }) => {
                                         </div>
                                     </div>
                                     {/* Sidebar */}
-                                    <div className="w-[30%] max-w-[361px]">
+                                    <div className="md:w-[30%] max-w-[361px]">
                                         <Button iconPosition={"left"} type={"primary"} onClick={() => { }} iconLeft={<Archive variant='Bold'></Archive>} style={{
                                             borderRadius: "8px",
                                             width: "100%",

@@ -57,7 +57,7 @@ const PostForm = ({ setModal }) => {
         reset()
     }
     return (
-        <div className="mt-16 z-10 absolute">
+        <div className="mt-16 z-10 absolute max-sm:w-full">
             <div className="flex flex-col gap-3 p-9 shadow-lg rounded-[8px] bg-white md:w-[811px] md:translate-x-[45%]">
                 <p className="text-[#141716] font-semibold text-[28px]"> Đăng bài </p>
                 <div>

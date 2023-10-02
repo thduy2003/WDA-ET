@@ -139,11 +139,11 @@ const Trip = () => {
     }, [cityRoute, tabActive])
 
     return (
-        <div className='mt-[20px] md:mt-[48px] max-sm:px-2 mb-[20px] md:mb-[56px] w-full ' style={{ backgroundImage: 'url(/images/map.png)' }}>
+        <div className="mt-[20px] md:mt-[48px] max-sm:px-2 mb-[20px] md:mb-[56px] w-full" style={{ backgroundImage: 'url(/images/map.png)' }}>
             <div className='flex max-sm:flex-col gap-x-[20px]  md:gap-x-[92px]'>
                 <div className=' md:w-[680px] h-full'>
 
-                    <div className='flex  md:flex-row gap-x-2 '>
+                    <div className='flex max-sm:flex-wrap  md:flex-row gap-x-2 '>
                         {cityRoute?.length > 0 ? cityRoute?.map((a, i) => {
                             return <div key={i} className='w-full  flex flex-col mt-5  items-center'>
                                 {
@@ -233,29 +233,28 @@ const Trip = () => {
 
                             expandIconPosition="end"
                             className="trip-collapse">
-
                             {provinceObjArr.map((item, index) => {
 
                                 return <Panel
-                                    header={<div className=" text-base font-semibold">{item.label}(4)</div>}
+                                    header={<div className="text-base font-semibold">{item.label}</div>}
                                     key={(index + 1).toString()}>
                                     {landMarks && landMarks.length > 0 && landMarks.map((landmark, id) => {
 
                                         if (landmark.province_id === item.value) {
 
-                                            return <div onClick={() => navigate(`/detail/landmark/${landmark._id}`)} key={id} className='w-full relative h-[168px] mb-2'>
-                                                <div className='w-full rounded-lg'>
-                                                    <img className='w-full h-[168px] rounded-lg object-cover' src={`${serverPublic}landmarks/${landmark?.images[0]}`} />
+                                            return <div onClick={() => navigate(`/detail/landmark/${landmark._id}`)} key={id} className="w-full relative h-[168px] mb-2">
+                                                <div className="w-full rounded-lg">
+                                                    <img className="w-full h-[168px] rounded-lg object-cover" src={`${serverPublic}landmarks/${landmark?.images[0]}`} />
                                                 </div>
-                                                <div className='bg-[#141716] w-full h-full absolute top-0 rounded-lg opacity-70 hover:opacity-40 cursor-pointer'>
+                                                <div className="bg-[#141716] w-full h-full absolute top-0 rounded-lg opacity-70 hover:opacity-40 cursor-pointer">
 
                                                 </div>
                                                 <div className="cursor-pointer absolute w-[32px] h-[32px] rounded-[4px] flex items-center justify-center bg-primary top-[3.8%] right-[3.8%]">
                                                     <SaveIcon />
                                                 </div>
                                                 <div className="cursor-pointer absolute py-2 px-3 rounded-[4px] flex items-center justify-center bg-primary top-[3.8%] left-[3.8%]">
-                                                    <div className='flex items-center'>
-                                                        <span className='mr-1'>4.5</span>
+                                                    <div className="flex items-center">
+                                                        <span className="mr-1">4.5</span>
                                                         <Star1 size="16" color="#dce775" variant="Bold" />
                                                     </div>
                                                 </div>
@@ -268,7 +267,7 @@ const Trip = () => {
                                     })}
                                 </Panel>
                             })}
-                        </Collapse></div> : <span>Vui lòng chọn lộ trình để xem địa điểm</span>}
+                        </Collapse></div> : <span >Vui lòng chọn lộ trình để xem địa điểm</span>}
 
                 </div>
             </div>

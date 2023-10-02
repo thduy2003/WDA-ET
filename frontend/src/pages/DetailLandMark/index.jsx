@@ -19,12 +19,13 @@ import Gallery from './Gallery/Gallery';
 import SliderImage from './Gallery/SliderImage';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { getLandmarkById } from '../../api/LandMarkAPI';
+import { getAllLandMarksByType, getLandmarkById } from '../../api/LandMarkAPI';
 import { serverPublic } from '../../utils';
 import { Popover } from 'antd';
 import { logOut } from '../../actions/AuthAction';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
+import { useWindowDimensions } from '../../hooks/useWindowDimension';
 
 const DetailLandMark = ({ position = "Long An" }) => {
     let [zoom, setZoom] = useState('false');
@@ -32,6 +33,8 @@ const DetailLandMark = ({ position = "Long An" }) => {
     const { id } = useParams()
     const dispatch = useDispatch()
     const [detail, setDetail] = useState()
+    const [listLandMarks, setListLandMarks] = useState()
+    const { isMobile } = useWindowDimensions()
     const user = useSelector((state) => state.authReducer.authData)
     const handleChangeTab = (e) => {
         if (e.target.innerText === 'Danh lam thắng cảnh') {
@@ -54,7 +57,17 @@ const DetailLandMark = ({ position = "Long An" }) => {
             fetchDetail()
         }
     }, [id])
-
+    useEffect(() => {
+        try {
+            const fetchData = async () => {
+                const result = await getAllLandMarksByType({ type: tabActive })
+                setListLandMarks(result.data)
+            }
+            fetchData()
+        } catch (error) {
+            console.log(error)
+        }
+    }, [tabActive])
     if (!detail) {
         return 'Không có bài chi tiết này'
     }
@@ -93,8 +106,9 @@ const DetailLandMark = ({ position = "Long An" }) => {
                 </div>
                 <div className={`flex flex-col items-center justify-center relative`}>
                     {
-                        zoom == 'false' ?
-                            <>
+
+                        <>
+                            {(isMobile || zoom === 'false') && <>
                                 <div className="flex max-sm:flex-col-reverse justify-between gap-9 md:gap-14  w-[90%] mt-14">
                                     {/* Main */}
                                     <div className="md:w-[75%]">
@@ -163,23 +177,26 @@ const DetailLandMark = ({ position = "Long An" }) => {
                                             <div onClick={(e) => handleChangeTab(e)} className={`mx-9 cursor-pointer pb-2 mb-[-1px] text-xl ${tabActive === 2 ? 'border-b-[1.5px] border-b-p1 font-semibold ' : 'text-third'}`}>Di tích lịch sử</div>
                                             <div onClick={(e) => handleChangeTab(e)} className={`cursor-pointer pb-2 mb-[-1px] text-xl ${tabActive === 3 ? 'border-b-[1.5px] border-b-p1 font-semibold ' : 'text-third'}`}>Làng nghề truyến thống</div>
                                         </div>
-                                        <div className='overflow-hidden'>
+                                        {listLandMarks && <div className='md:overflow-hidden max-sm:overflow-x-auto '>
                                             <Carousel
                                                 margin={32}
-                                                datas={[]}
-
-                                                items={5}
+                                                datas={listLandMarks ?? []}
+                                                overflow={isMobile ? true : false}
+                                                hiddenButton={isMobile ? true : false}
+                                                items={isMobile ? 2 : 5}
                                                 renderItem={item => {
                                                     return (
-                                                        <Card data={item} widthImage={300} heightImage={257} />
+                                                        <Card data={item} widthImage={isMobile ? 250 : 300} heightImage={isMobile ? 200 : 257} />
                                                     );
                                                 }}
                                             />
-                                        </div>
+                                        </div>}
                                     </div>
                                 </div>
-                            </>
-                            : <SliderImage imagesData={detail?.images ?? []} onChangeZoom={() => setZoom('false')}></SliderImage>
+                            </>}
+
+                            {(zoom !== 'false' && isMobile === false) && <SliderImage imagesData={detail?.images ?? []} onChangeZoom={() => setZoom('false')}></SliderImage>}
+                        </>
                     }
                 </div>
                 <Footer />

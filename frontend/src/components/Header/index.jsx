@@ -63,13 +63,13 @@ const Header = ({ isBorder = true, colorLogo, textColor = 'black' }) => {
                     <Link onClick={handleNavbarCancel} className='bg-[#D02F3D] text-center text-white rounded-lg p-2' to='/trip'>Đề xuất lộ trình</Link>
                     <Link onClick={handleNavbarCancel} className='bg-[#D02F3D] text-center text-white rounded-lg p-2' to='/forum'>Diễn đàn</Link>
                     {user ?
-                        <Link to={`/profile/${user.user._id}`} className='flex items-center justify-center'>
+                        <Link onClick={handleNavbarCancel} to={`/profile/${user.user._id}`} className='flex items-center justify-center'>
                             <div className='w-5 h-5 rounded-full'>
                                 <img className='w-5 h-5 rounded-full' src={`${serverPublic}profile/${user?.user?.avatar}`} />
                             </div>
                             <div className='ml-1'>{user.user.name}</div>
                         </Link>
-                        : <Link to='/auth'><Button size='small' type='outline-white' iconPosition='left' iconLeft={<ProfileCircle size="20" color="#FAFBFC" variant="Bold" />}>Đăng kí</Button></Link>}
+                        : <Link onClick={handleNavbarCancel} to='/auth'><Button size='small' type='outline-white' iconPosition='left' iconLeft={<ProfileCircle size="20" color="#FAFBFC" variant="Bold" />}>Đăng kí</Button></Link>}
                     {
                         user ? <div onClick={() => {
                             dispatch(logOut())

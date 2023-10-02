@@ -62,7 +62,7 @@ const Detail = ({ position = "Long An" }) => {
         }
         fetchData()
     }, [detail, tabActive])
-    const imageBanner = detail ? `http://127.0.0.1:6789/public/images/provinces/${detail?.images[0]}` : '/images/banner.png'
+    const imageBanner = detail ? `https://viewander-backend-zwn8.onrender.com/public/images/provinces/${detail?.images[0]}` : '/images/banner.png'
 
     return (
         // container
